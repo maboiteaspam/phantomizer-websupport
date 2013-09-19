@@ -1,0 +1,184 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <link href="/js/vendors/go-dashboard/dashboard.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="dashboard dashboard-closed">
+    <a name="dashboard"></a>
+
+    <div class="half-opac-bg"></div>
+    <div class="dashboard-scene">
+        <ul>
+            <li><a href="#dashboard">Preview</a></li>
+            <li><a href="#dashboard">Check</a></li>
+            <li><a href="#dashboard">Test</a></li>
+            <li><a href="#dashboard">Document</a></li>
+            <li><a href="#dashboard">Learn</a></li>
+        </ul>
+        <a class="close" href="#">Close</a>
+
+        <div class="dashboard-view">
+            <h1>Preview</h1>
+
+            <h2>Device simulation</h2>
+            <label for="device_preview"> Device : Simulate the selected device</label> <select id="device_preview" data-bind="value: dashboard.devicePreview">
+            <option value=""> - </option>
+            <option value="ipad">Ipad</option>
+            <option value="iphone-3g">Iphone 3g</option>
+            <option value="iphone-3gs">Iphone 3gs</option>
+            <option value="iphone-4">Iphone 4</option>
+            <option value="iphone-5">Iphone 5</option>
+            <option value="htc-one">HTC one</option>
+            <option value="samsung-s4">Samsung S4</option>
+        </select> <select id="device_mode" data-bind="value: dashboard.deviceMode">
+            <option value=""> - </option>
+            <option value="landscape">landscape</option>
+            <option value="portrait">portrait</option>
+        </select><br/>
+
+            <h2>Network latency</h2>
+            <label for="network_congestion_min"> Congestion : Create congestion on your server</label><select id="network_congestion_min" data-bind="value: dashboard.networkMinCongestion">
+            <option value="0ms">0 ms</option>
+            <option value="50ms">50 ms</option>
+            <option value="100ms">100 ms</option>
+            <option value="250ms">250 ms</option>
+            <option value="500ms">500 ms</option>
+            <option value="1000ms">1000 ms</option>
+            <option value="1500ms">1500 ms</option>
+            <option value="2500ms">2500 ms</option>
+        </select> - <select id="network_congestion_max" data-bind="value: dashboard.networkMaxCongestion">
+            <option value="0ms">0 ms</option>
+            <option value="50ms">50 ms</option>
+            <option value="100ms">100 ms</option>
+            <option value="250ms">250 ms</option>
+            <option value="500ms">500 ms</option>
+            <option value="1000ms">1000 ms</option>
+            <option value="1500ms">1500 ms</option>
+            <option value="2500ms">2500 ms</option>
+        </select><br/>
+            <label for="network_bandwidth">Bandwidth : Adjust your bandwidth</label><select id="network_bandwidth" data-bind="value: dashboard.networkBandwidth">
+                <option value="0k">no limit</option>
+                <option value="50k">50k</option>
+                <option value="56k">56k</option>
+                <option value="64k">64k</option>
+                <option value="144k">144k</option>
+                <option value="384k">384k</option>
+                <option value="512k">512k</option>
+                <option value="1024k">1024k</option>
+                <option value="2048k">2048k</option>
+                <option value="3072k">3072k</option>
+                <option value="10240k">10240k</option>
+            </select><br/>
+
+            <h2>Optimizations</h2>
+            <label>
+                <select data-bind="value: dashboard.Optimizations">
+                    <option value="">None</option>
+                    <option value="stryke-build">Build html</option>
+                    <option value="stryke-assets-build">Build assets</option>
+                    <option value="stryke-assets-min-build">Minify assets & html</option>
+                </select>
+                <br/></label>
+
+            <label><input type="checkbox" data-bind="checked: dashboard.previewNoDashboard" />No
+                dashboard : Hide dashboard to report more finely your page loading times
+            </label>
+            <br/>
+            <a href="#" data-bind="attr:{href: dashboard.previewNowUrl}, click: dashboard.goPreview">Preview now</a>
+            &nbsp;||&nbsp;
+            <a href="#" data-bind="attr:{href: dashboard.previewNowUrl}, click: dashboard.goPreviewNoDashBoard">Preview without DashBoard</a>
+            &nbsp;||&nbsp;
+            <a href="#" id="cache_clean">Purge the cache</a>
+        </div>
+        <div class="dashboard-view" id="dashboard-enhancer">
+            <h1>Enhance Quality</h1>
+
+            <h2>HTML</h2>
+            <b class="subtitle">Holmes</b><br/>
+            <a href="#" class="holmes_inject">Inspect your code</a>
+
+            <h2>Javascript</h2>
+            <b class="subtitle">JsLint</b><br/>
+            Select the script to inspect :
+            <select data-bind="options: dashboard.availableScripts, selectedOptions: dashboard.chosenScript"></select><br/>
+            <textarea data-bind="value: dashboard.contentScript">
+                Input your code here
+            </textarea>
+            <a href="#" class="jslint_btn_report">JSlint your code</a>
+            <br/>
+            <br/>
+            <b class="subtitle">JsHint</b><br/>
+            Select the script to inspect :
+            <select data-bind="options: dashboard.availableScripts, selectedOptions: dashboard.chosenScript"></select><br/>
+            <textarea data-bind="value: dashboard.contentScript">
+                Input your code here
+            </textarea>
+            <a href="#" class="jshint_btn_report">JSHint your code</a>
+
+            <h2>Css</h2>
+            <b class="subtitle">CssLint</b><br/>
+            Select the script to inspect :
+            <select data-bind="options: dashboard.availableStyles, selectedOptions: dashboard.chosenStyle"></select>
+            <br/>
+            <textarea data-bind="value: dashboard.contentStyle">
+                Input your code here
+            </textarea>
+            <a href="#" class="csslint_report">CSSlint your code</a>
+
+        </div>
+        <div class="dashboard-view">
+            <h1>Test</h1>
+            <h2>Testing</h2>
+            <label>
+                Choose a specification <select
+                    data-bind="options: dashboard.availableSpecifications, selectedOptions: dashboard.chosenSpecification"></select>
+            </label>
+            <a href="#" data-bind="attr:{href: dashboard.previewNowUrl}">Test your app</a>
+        </div>
+        <div class="dashboard-view">
+            <h2>Documentation</h2>
+            <a target="_blank" href="/stryke_doc/js/">Browse scripts</a><br/>
+            <a target="_blank" href="/stryke_doc/css/">Browse css</a><br/>
+            <h2>Generate</h2>
+            <a href="#" data-bind="click: dashboard.GenerateDocumentation">Generate the documentation</a><br/>
+            <span data-bind="text: dashboard.DocumentationStatus"></span>
+        </div>
+        <div class="dashboard-view">
+            <h1>Learn</h1>
+
+            <h2>Script dependenies</h2>
+            <a target="_blank" href="//requirejs.org/">RequireJS</a> : A JavaScript file and module loader<br/>
+            <a target="_blank" href="//github.com/jrburke/almond">Almond</a> : A replacement AMD loader for RequireJS, smaller, it provides the minimal AMD API footprint<br/>
+
+            <h2>Dom manipulation</h2>
+            <a target="_blank" href="//api.jquery.com">jQuery</a> : A fast, small, and feature-rich JavaScript library<br/>
+
+            <h2>Templating</h2>
+            <a target="_blank" href="#">Stryke</a> : An html-block oriented template engine<br/>
+
+            <h2>Data binding</h2>
+            <a target="_blank" href="//knockoutjs.com/">KnockOut</a> : Simplify dynamic JavaScript UIs by applying the Model-View-View Model (MVVM) pattern<br/>
+
+            <h2>Documentation</h2>
+            <a target="_blank" href="//en.wikipedia.org/wiki/Literate_programming">Literate programming</a> : Learn more about <b>Literate programming</b>, an approach to programming.<br/>
+            <a target="_blank" href="//jashkenas.github.io/docco/">Docco</a> : Docco is a quick-and-dirty documentation generator.<br/>
+            <a target="_blank" href="//jacobrask.github.io/styledocco/">StyleDocco</a> : StyleDocco generates documentation and style guide documents from your stylesheets.<br/>
+
+            <h2>Control & Quality</h2>
+            <a target="_blank" href="//www.red-root.com/sandbox/holmes/">Holmes</a> : A CSS Markup Detective
+            of your HTML code<br/>
+            <a target="_blank" href="//www.jslint.com/">JSLint</a> : A JavaScript Code Quality Tool
+            code<br/>
+            <a target="_blank" href="//www.jshint.com/">JSHint</a> : A tool to detect errors and potential problems in JavaScript code and can be used to enforce coding conventions.
+            code<br/>
+            <a target="_blank" href="//csslint.net/">CSSLint</a> : A CSS Code Quality Tool
+            code<br/>
+
+            <h2>Test</h2>
+            <a target="_blank" href="//pivotal.github.com/jasmine/">Jasmine</a> : A behavior-driven development framework for testing JavaScript code.<br/>
+            <a target="_blank" href="//qunitjs.com/">QUnit</a> : A powerful, easy-to-use JavaScript unit testing framework.<br/>
+        </div>
+    </div>
+</div>
+</body>
+</html>
