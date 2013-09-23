@@ -1,5 +1,5 @@
 // lets you mock any jQuery / Zepto ajax call
-define(["vendors/utils/dfder"],function(dfder){
+define(["vendors/utils/dfrer"],function(dfrer){
     (function($) {
         var mocks = [];
         // save original ajax handler and overwrite it
@@ -36,7 +36,7 @@ define(["vendors/utils/dfder"],function(dfder){
             var mock = find_mock(options)
 
             if( mock ){
-                var dfd = new dfder();
+                var dfd = new dfrer();
                 if(mock.respond.code == 200 ){
                     var data = mock.respond.data;
                     window.setTimeout(function(){

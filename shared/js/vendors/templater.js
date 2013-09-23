@@ -1,10 +1,28 @@
 
-// declare only once
-if( ! templater ){
-    //
+define(["vendors/utils/dfrer"],function (dfrer) {
     var templater = (function(){
+        var dfd = null;
         // loads all includes directive, execute handler when they are loaded
         var template = function (next){
+
+            if( dfd !== null ){
+                if( next != undefined ){
+                    (function(dfd,next){
+                        dfd.always(function(){
+                            next();
+                        });
+                    })(dfd,next);
+                }
+                return dfd;
+            }
+
+            dfd = new dfrer();
+            if( next != undefined ){
+                dfd.always(function(){
+                    next();
+                });
+            }
+
             // render the config to the theme's template
             var length = $(".include").length;
             var cur_length = 0;
@@ -34,14 +52,14 @@ if( ! templater ){
                     // append scripts to the body
                     $(scripts).appendTo("body");
                     cur_length++;
-                    if( cur_length == length ) next();
+                    if( cur_length == length ){
+                        dfd.resolve();
+                    }
                 })
             });
+            return dfd;
         };
         return template;
     })();
-
-    if ( typeof define === "function" && define.amd ) {
-        define( function () { return templater; } );
-    }
-}
+    return templater;
+});
