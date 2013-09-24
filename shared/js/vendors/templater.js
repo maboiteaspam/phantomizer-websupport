@@ -7,11 +7,9 @@ define(["vendors/utils/dfrer"],function (dfrer) {
 
             if( dfd !== null ){
                 if( next != undefined ){
-                    (function(dfd,next){
-                        dfd.always(function(){
-                            next();
-                        });
-                    })(dfd,next);
+                    dfd.always(function(){
+                        next();
+                    });
                 }
                 return dfd;
             }

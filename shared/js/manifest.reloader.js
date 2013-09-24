@@ -9,29 +9,24 @@
      window.location.reload();
      }, false);
     */
-        var appCache = window.applicationCache
-        console.log("----------------- ff")
+        var appCache = window.applicationCache;
         appCache.addEventListener('updateready', function(e) {
-            console.log("----------------- gg", appCache.status, appCache.UPDATEREADY)
             if (appCache.status == appCache.UPDATEREADY) {
                 window.location.reload();
             }
         }, false);
         appCache.addEventListener('onobsolete', function(e) {
-            console.log("----------------- jjj")
             appCache.swapCache();
             window.location.reload();
         }, false);
 
         appCache.updateready = function(e) {
-            console.log("----------------- gghh")
             if (appCache.status == appCache.UPDATEREADY) {
                 window.location.reload();
             }
         }
 
         appCache.onobsolete = function(e) {
-            console.log("----------------- jjjhh")
             appCache.swapCache();
             window.location.reload();
         }
