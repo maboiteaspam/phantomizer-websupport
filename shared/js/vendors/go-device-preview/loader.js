@@ -1,7 +1,6 @@
 require(["vendors/utils/waitFor","vendors/utils/getVar","vendors/go-device-preview/device-preview"], function(waitFor,getVar,DevicePreviewFacade){
     var device = getVar("device") || false;
     var device_mode = getVar("device_mode") || "portrait";
-    console.log(getVar("device"))
     if( device ){
         var to_wait = "app-ready";
         if( ! getVar("no_dashboard") ){

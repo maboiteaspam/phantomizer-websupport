@@ -1,6 +1,7 @@
 'use strict';
-require([],function(){
-    return function(QUnit){
+define([],function(){
+    return function(){
+        var QUnit = window.QUnit;
 // Send messages to the parent PhantomJS process via alert! Good times!!
         var sendMessage = function() {
             var args = [].slice.call(arguments);
@@ -41,5 +42,6 @@ require([],function(){
         QUnit.done(function(obj) {
             sendMessage('qunit.done', obj.failed, obj.passed, obj.total, obj.runtime);
         });
+        return QUnit;
     }
 })

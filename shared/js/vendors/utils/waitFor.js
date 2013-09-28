@@ -28,7 +28,7 @@ define([],function () {
                     window.clearTimeout(timeout);
                     fn();
                 }
-            }, speed || 500);
+            }, speed || 100);
         })(fn,el,classes);
     }
     return waitFor;
