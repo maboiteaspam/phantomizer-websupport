@@ -1,4 +1,4 @@
-define("vendors/domain-switcher",function () {
+define([],function () {
     /**
      * This script is responsible to provide the correct domain name to use
      * for webservices consumption according to the browsed domain name
