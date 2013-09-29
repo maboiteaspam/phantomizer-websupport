@@ -2,6 +2,7 @@
 define(["vendors/utils/dfrer"],function(dfrer){
     (function($) {
         var mocks = [];
+        var mock_delay = 1;
         // save original ajax handler and overwrite it
         var _ajax = $.ajax;
 
@@ -36,23 +37,29 @@ define(["vendors/utils/dfrer"],function(dfrer){
             var mock = find_mock(options)
 
             if( mock ){
+                var delay = options.delay?options.delay:mock_delay;
                 var dfd = new dfrer();
                 if(mock.respond.code == 200 ){
                     var data = mock.respond.data;
                     window.setTimeout(function(){
                         if( options.success ) options.success(data);
                         dfd.resolve(data);
-                    },1);
+                    },delay);
                 }else{
                     window.setTimeout(function(){
                         if( options.error ) options.error(data);
                         dfd.reject(data);
-                    },1);
+                    },delay);
                 }
                 return dfd;
             }else{
                 return _ajax(options)
             }
+        };
+
+        // mock an ajax call
+        $.setMockDelay = function(delay){
+            mock_delay = delay
         };
 
         // mock an ajax call
