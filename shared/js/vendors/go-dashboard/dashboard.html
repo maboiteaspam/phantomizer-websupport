@@ -12,6 +12,7 @@
             <li><a href="#dashboard">Preview</a></li>
             <li><a href="#dashboard">Check</a></li>
             <li><a href="#dashboard">Test</a></li>
+            <li><a href="#dashboard" class="tab-qrcode">QRCode</a></li>
             <li><a href="#dashboard">Document</a></li>
             <li><a href="#dashboard">Learn</a></li>
         </ul>
@@ -126,14 +127,38 @@
             <a href="#" class="csslint_report">CSSlint your code</a>
 
         </div>
-        <div class="dashboard-view">
+        <div class="dashboard-view" id="dashboard-test">
             <h1>Test</h1>
             <h2>Testing</h2>
             <label>
                 Choose a specification <select
                     data-bind="options: dashboard.availableSpecifications, selectedOptions: dashboard.chosenSpecification"></select>
             </label>
+            <label>
+                Apply delay on webservices calls <select
+                    data-bind="selectedOptions: dashboard.delay">
+                        <option value="">0 ms</option>
+                        <option value="50">50 ms</option>
+                        <option value="100">100 ms</option>
+                        <option value="250">250 ms</option>
+                        <option value="500">500 ms</option>
+                        <option value="1000">1000 ms</option>
+                        <option value="1500">1500 ms</option>
+                        <option value="2500">2500 ms</option>
+                    </select>
+            </label>
+
             <a href="#" data-bind="attr:{href: dashboard.previewNowUrl}">Test your app</a>
+        </div>
+        <div class="dashboard-view" id="dashboard-qrcode">
+            <h1>QRCode</h1>
+            <h2>Access this page on your smartphone</h2>
+            <label>
+                <span data-bind="text: dashboard.previewNowAbsUrl"></span>
+            </label>
+            <br/>
+            <br/>
+            <div id="qrcode"></div>
         </div>
         <div class="dashboard-view">
             <h2>Documentation</h2>
@@ -152,10 +177,7 @@
 
             <h2>Dom manipulation</h2>
             <a target="_blank" href="//api.jquery.com">jQuery</a> : A fast, small, and feature-rich JavaScript library<br/>
-<!--
-            <h2>Templating</h2>
-            <a target="_blank" href="#">Stryke</a> : An html-block oriented template engine<br/>
--->
+
             <h2>Data binding</h2>
             <a target="_blank" href="//knockoutjs.com/">KnockOut</a> : Simplify dynamic JavaScript UIs by applying the Model-View-View Model (MVVM) pattern<br/>
 

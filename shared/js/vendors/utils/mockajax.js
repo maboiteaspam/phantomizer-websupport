@@ -57,9 +57,30 @@ define(["vendors/utils/dfrer","vendors/utils/json"],function(dfrer, json){
             }
         };
 
+        //
+        $.rejected = function(data){
+            var dfd = new dfrer();
+            window.setTimeout(function(){
+                dfd.reject(data);
+            },mock_delay);
+            return dfd;
+        };
+
+        //
+        $.resolved = function(data){
+            var dfd = new dfrer();
+            window.setTimeout(function(){
+                dfd.resolve(data);
+            },mock_delay);
+            return dfd;
+        };
+
         // mock an ajax call
         $.setMockDelay = function(delay){
-            mock_delay = delay
+            mock_delay = delay;
+            for( var n in mocks ){
+                if( mocks[n].delay) mocks[n].delay = delay;
+            }
         };
 
         // mock an ajax call
@@ -73,10 +94,16 @@ define(["vendors/utils/dfrer","vendors/utils/json"],function(dfrer, json){
             var mock_index = find_mock_index(options)
             while( mock_index > -1 ){
                 found = true;
-                if( mock_index == 0 ) mocks.shift();
-                if( mock_index == mocks.length-1 ) mocks.pop();
-                else{
-                    mocks = [].concat(mocks.slice(mock_index-1, mock_index), mocks.slice(mock_index+1, mocks.length-1))
+                if( mock_index == 0 ){
+                    mocks.shift();
+                }else if( mock_index == mocks.length-1 ){
+                    mocks.pop();
+                }else{
+                    var t = mocks;
+                    mocks = [];
+                    for( var n in t ){
+                        if( n != mock_index ) mocks.push(t[n])
+                    }
                 }
                 mock_index = find_mock_index(options)
             }

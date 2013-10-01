@@ -1,4 +1,4 @@
-define(["vendors/go-device-preview/device-preview"], function(DevicePreviewFacade) {
+define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax"], function(DevicePreviewFacade, mockajax) {
     return function Dashboard() {
         var that = this;
 
@@ -11,6 +11,10 @@ define(["vendors/go-device-preview/device-preview"], function(DevicePreviewFacad
         var val_def = ['Choose one..'];
 
         that.previewNowUrl = ko.observable(loc);
+        that.previewNowAbsUrl = ko.observable(window.location.origin+""+loc);
+        that.previewNowUrl.subscribe(function(loc){
+            that.previewNowAbsUrl(window.location.origin+""+loc);
+        });
 
         that.availableScripts = ko.observableArray(val_def.slice(0));
         that.chosenScript = ko.observable(val_def.slice(0));
@@ -33,6 +37,7 @@ define(["vendors/go-device-preview/device-preview"], function(DevicePreviewFacad
         that.testSpeed = ko.observable("0.5");
         that.DocumentationStatus = ko.observable("");
         that.Optimizations = ko.observable("");
+        that.delay = ko.observable(null);
 
 
         function update_preview_now_loc(param_to_update) {
@@ -154,8 +159,20 @@ define(["vendors/go-device-preview/device-preview"], function(DevicePreviewFacad
 
 
 
+        var delay = get_param("delay");
+        that.delay.subscribe(function (newValue) {
+            $.setMockDelay(newValue[0]);
+            if( newValue[0] == "" ){
+                less_preview_now_loc("delay=");
+            }else{
+                less_preview_now_loc("delay=");
+                update_preview_now_loc("delay="+newValue[0]);
+            }
+        });
+        that.delay([delay]);
 
-        var device = get_param("device")
+
+        var device = get_param("device");
         var device_mode = get_param("device_mode")
         that.devicePreview(device);
         that.deviceMode(device_mode);

@@ -1,4 +1,4 @@
-define(["vendors/go-dashboard/dashboard"], function(Dashboard) {
+define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min"], function(Dashboard, qrcode) {
 
     $.fn.dashboard = function (options) {
         var el = $(this).find(".dashboard");
@@ -82,6 +82,7 @@ define(["vendors/go-dashboard/dashboard"], function(Dashboard) {
 
                     var index = $(event.target).parent().index();
                     $(el).dashboard_open(index);
+                    return false;
                 }
             });
 
@@ -187,11 +188,13 @@ define(["vendors/go-dashboard/dashboard"], function(Dashboard) {
                 }
                 return false;
             });
-
+            // catch report csslint
+            $(el).find(".tab-qrcode").click(function () {
+                $('#qrcode').children().remove();
+                $('#qrcode').qrcode(window.location.origin+""+DashboardViewModel.previewNowUrl());
+            });
 
             ko.applyBindings({dashboard: DashboardViewModel}, $(el)[0]);
-
-
         }
         return $(this);
     };

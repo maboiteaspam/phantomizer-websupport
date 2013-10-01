@@ -1,7 +1,7 @@
 /* Note that because of ie6, not > selector...*/
 /* struct first */
 .dashboard{
-    position: absolute; /* for ie6 */
+    position: fixed;
     width:100%;
     height:100%;
     left: 0;

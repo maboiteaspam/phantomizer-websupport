@@ -19,7 +19,7 @@ require(["vendors/utils/waitFor","vendors/utils/getVar",'vendors/go-qunit/phanto
     var spec_files = getVar("spec_files");
     var no_dashboard = getVar("no_dashboard");
     var device = getVar("device-enabled");
-    if( spec_files ){
+    if( spec_files.length > 0 ){
 
         var to_wait = "app-ready";
         if( ! no_dashboard ){

@@ -28,7 +28,7 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
         var dfrers = arguments;
         var todo_cnt = dfrers.length;
         var done_cnt = 0;
-        for(var n in dfrers ){
+        for( var n=0;n<todo_cnt;n++){
             dfrers[n].always(function(){
                 done_cnt++;
                 if( done_cnt == todo_cnt ){
