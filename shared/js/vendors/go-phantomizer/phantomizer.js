@@ -1,15 +1,22 @@
 // deferrer helps you to emulate a jQuery.Deferrer object
 define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendors/utils/dfrer"],function (queuer, template, dfrer) {
-    var phantomizer = function(){}
-    phantomizer.prototype.template = new template();
-    phantomizer.prototype.queuer = new queuer(window.phantomatic || false);
-    phantomizer.prototype.render = function(fn){
+    var phantomizer = function(){
         var that = this;
-        // get the queue to register to
         // Using render_static, this function will be called only for the build
         this.queuer.render_static(function(next){
             that.template.render_build(next);
         });
+    }
+    phantomizer.prototype.template = new template();
+    phantomizer.prototype.queuer = new queuer(window.phantomatic || false);
+    phantomizer.prototype.render_static = function(fn){
+        var that = this;
+        this.queuer.render_static(function(next){
+            fn(next);
+        });
+    };
+    phantomizer.prototype.render = function(fn){
+        var that = this;
         this.queuer.render(function(next){
             that.template.render_client(next);
         });
