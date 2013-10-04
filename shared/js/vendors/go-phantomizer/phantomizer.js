@@ -1,35 +1,64 @@
 // deferrer helps you to emulate a jQuery.Deferrer object
 define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendors/utils/dfrer"],function (queuer, template, dfrer) {
     var phantomizer = function(){
-        var that = this;
-        // Using render_static, this function will be called only for the build
-        this.queuer.render_static(function(next){
-            that.template.render_build(next);
-        });
     }
     phantomizer.prototype.template = new template();
     phantomizer.prototype.queuer = new queuer(window.phantomatic || false);
-    phantomizer.prototype.render_static = function(fn){
+
+    phantomizer.prototype.before_render = [];
+    phantomizer.prototype.after_static_render = [];
+    phantomizer.prototype.after_client_render = [];
+    phantomizer.prototype.after_render = [];
+
+    function add_to_queuer(queuer,render_list){
+        for(var n in render_list ){
+            var render = render_list[n].render;
+            if(render=="client"){
+                queuer.render_client(render_list[n].fn);
+            }else if(render=="static"){
+                queuer.render_static(render_list[n].fn);
+            }else{
+                queuer.render(render_list[n].fn);
+            }
+        }
+    }
+    phantomizer.prototype.render = function(main_fn){
         var that = this;
-        this.queuer.render_static(function(next){
-            fn(next);
+        add_to_queuer(that.queuer, that.before_render);
+        // Using render_static, this function will be called only for the build
+        that.queuer.render_static(function(next){
+            that.template.render_build(next);
         });
-    };
-    phantomizer.prototype.render = function(fn){
-        var that = this;
-        this.queuer.render(function(next){
+        add_to_queuer(that.queuer, that.after_static_render);
+        that.queuer.render(function(next){
             that.template.render_client(next);
         });
-        this.queuer.render(function(next){
-            fn(next);
-        });
-        this.queuer.render(function(next){
+        that.queuer.render(main_fn);
+        add_to_queuer(that.queuer, that.after_client_render);
+        that.queuer.render(function(next){
             that.template.inject_scripts();
-            $("html").addClass(" app-ready ");
             next();
         });
-        this.queuer.run();
+        add_to_queuer(that.queuer, that.after_render);
+
+        that.queuer.run();
     };
+    phantomizer.prototype.afterStaticRender = function(fn,render){
+        render= render?render:"render";
+        this.after_static_render.push({fn:fn,render:render});
+    }
+    phantomizer.prototype.afterClientRender = function(fn,render){
+        render= render?render:"render";
+        this.after_client_render.push({fn:fn,render:render});
+    }
+    phantomizer.prototype.afterRender = function(fn,render){
+        render= render?render:"render";
+        this.after_render.push({fn:fn,render:render});
+    }
+    phantomizer.prototype.beforeRender = function(fn,render){
+        render= render?render:"render";
+        this.before_render.push({fn:fn,render:render});
+    }
     phantomizer.prototype.when = function(){
         var dfd = new dfrer();
         var dfrers = arguments;
