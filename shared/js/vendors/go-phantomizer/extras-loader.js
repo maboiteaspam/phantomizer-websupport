@@ -14,7 +14,6 @@ define([
 
     });
     phantomizer.afterClientRender(function(next){
-        console.log("afterClientRender");
         DashBoardLoader.load();
 
         DevicePreviewLoader.load();
@@ -24,7 +23,6 @@ define([
         });
     });
     phantomizer.afterRender(function(next){
-        console.log("afterRender");
         QUnitLoader.start(next);
     });
 

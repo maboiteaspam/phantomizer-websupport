@@ -36,7 +36,10 @@ define(["vendors/utils/getVar",'vendors/go-qunit/phantomjs-bridge','vendors/go-q
 
             QUnit.load();
             require(that.spec_files,function(){
-                that.tests = arguments;
+                that.tests = [];
+                for(var n=0;n<arguments.length;n++){
+                    that.tests.push(arguments[n])
+                }
                 var n = -1;
                 var d = that.tests.length;
                 var iter = function(){

@@ -44,7 +44,7 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
         that.queuer.run();
     };
     phantomizer.prototype.afterStaticRender = function(fn,render){
-        render= render?render:"render";
+        render= render?render:"static";
         this.after_static_render.push({fn:fn,render:render});
     }
     phantomizer.prototype.afterClientRender = function(fn,render){
