@@ -9,21 +9,36 @@ define([
     DashBoardLoader = new DashBoardLoader();
     DevicePreviewLoader = new DevicePreviewLoader();
 
-    phantomizer.beforeRender(function(next){
-        QUnitLoader.load(next);
+    if( window.is_built ){
+        QUnitLoader.load(function(){
+            DashBoardLoader.load();
 
-    });
-    phantomizer.afterClientRender(function(next){
-        DashBoardLoader.load();
+            DevicePreviewLoader.load();
 
-        DevicePreviewLoader.load();
-
-        DashBoardLoader.start(function(){
-            DevicePreviewLoader.start(next);
+            DashBoardLoader.start(function(){
+                DevicePreviewLoader.start(function(){
+                    QUnitLoader.start();
+                });
+            });
         });
-    });
-    phantomizer.afterRender(function(next){
-        QUnitLoader.start(next);
-    });
 
+    }else{
+        phantomizer.beforeRender(function(next){
+            QUnitLoader.load(next);
+
+        });
+
+        phantomizer.afterClientRender(function(next){
+            DashBoardLoader.load();
+
+            DevicePreviewLoader.load();
+
+            DashBoardLoader.start(function(){
+                DevicePreviewLoader.start(next);
+            });
+        });
+        phantomizer.afterRender(function(next){
+            QUnitLoader.start(next);
+        });
+    }
 });
