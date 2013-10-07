@@ -1,7 +1,7 @@
 define(["vendors/utils/getVar","vendors/go-dashboard/dashboard-ui"], function(getVar,$){
     var DashBoardLoader = function(){
         var no_dashboard = getVar("no_dashboard");
-        if( no_dashboard != false )
+        if( no_dashboard != false && window.no_dashboard != true )
             this.enabled = false;
 
 
