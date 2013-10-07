@@ -34,6 +34,7 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
             that.template.render_client(next);
         });
         that.queuer.render(main_fn);
+        console.log("rr", that.after_client_render)
         add_to_queuer(that.queuer, that.after_client_render);
         that.queuer.render(function(next){
             that.template.inject_scripts();
