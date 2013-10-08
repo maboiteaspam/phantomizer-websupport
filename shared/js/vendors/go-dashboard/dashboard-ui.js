@@ -17,6 +17,9 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
                         $("html script[src]").each(function (i, e) {
                             var src = $(e).attr("src");
                             if (src) {
+                                src = src.replace(/\\/g,"/");
+                                src = src.replace("//","/");
+                                src = src.replace("//","/");
                                 if (src.substr(0, 1) != "/") {
                                     src = base_dir + src;
                                 }
@@ -27,6 +30,9 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
                             if ($(e).attr("rel") == "stylesheet" || $(e).attr("type") == "text/css") {
                                 var src = $(e).attr("href");
                                 if (src) {
+                                    src = src.replace(/\\/g,"/");
+                                    src = src.replace("//","/");
+                                    src = src.replace("//","/");
                                     if (src.substr(0, 1) != "/") {
                                         src = base_dir + src;
                                     }
@@ -61,6 +67,9 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
                                 _h_doc.find("a").each(function (i, v) {
                                     var x = $(v).attr("href");
                                     if (x.substring(x.indexOf('.js'), x.length).toLowerCase() == ".js") {
+                                        x = x.replace(/\\/g,"/");
+                                        x = x.replace("//","/");
+                                        x = x.replace("//","/");
                                         fn_found(x);
                                     }
                                 });
@@ -361,6 +370,6 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
             dfd.resolve(messages);
         });
     };
-	
-	return $
+
+    return $
 });
