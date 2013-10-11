@@ -10,35 +10,56 @@ define([
     DevicePreviewLoader = new DevicePreviewLoader();
 
     if( window.is_built ){
-        QUnitLoader.load(function(){
-            DashBoardLoader.load();
 
-            DevicePreviewLoader.load();
-
-            DashBoardLoader.start(function(){
+        DevicePreviewLoader.load(function(has_loaded){
+            if( has_loaded ){
                 DevicePreviewLoader.start(function(){
-                    QUnitLoader.start();
+                    DashBoardLoader.load();
+                    DashBoardLoader.start();
                 });
-            });
+            }else{
+                DashBoardLoader.load();
+                DashBoardLoader.start(function(){
+                    QUnitLoader.load(function(){
+                        QUnitLoader.start();
+                    });
+                });
+            }
         });
 
-    }else{
-        phantomizer.beforeRender(function(next){
-            QUnitLoader.load(next);
 
+
+    }else{
+        var has_loaded_preview = false;
+        phantomizer.beforeRender(function(next){
+            DevicePreviewLoader.load(function(has_loaded){
+                has_loaded_preview = has_loaded;
+                if( has_loaded ){
+                    DevicePreviewLoader.start(function(){
+                        DashBoardLoader.load();
+                        DashBoardLoader.start(function(){ });
+                    });
+                }else{
+                    QUnitLoader.load(next);
+                }
+
+            });
         });
 
         phantomizer.afterClientRender(function(next){
-            DashBoardLoader.load();
-
-            DevicePreviewLoader.load();
-
-            DashBoardLoader.start(function(){
-                DevicePreviewLoader.start(next);
-            });
+            if( has_loaded_preview ){
+                //next();
+            }else{
+                DashBoardLoader.load();
+                DashBoardLoader.start(next);
+            }
         });
         phantomizer.afterRender(function(next){
-            QUnitLoader.start(next);
+            if( has_loaded_preview ){
+                //next();
+            }else{
+                QUnitLoader.start(next);
+            }
         });
     }
 });
