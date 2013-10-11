@@ -13,6 +13,8 @@
     left: 0;
     top: 0;
     text-align: left;
+    font-family: sans-serif;
+    font-size: 0.8em;
 }
 .dashboard .half-opac-bg{
     position: absolute;
