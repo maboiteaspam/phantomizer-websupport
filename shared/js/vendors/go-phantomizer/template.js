@@ -19,7 +19,7 @@ define([],function () {
         });
         // insert in place all nodes which are not scripts
         $(data_t).not("script").each(function(k,n){
-            $(n).insertAfter($(directive));
+            $(n).insertBefore($(directive));
         })
 
         return scripts;
