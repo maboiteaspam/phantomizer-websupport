@@ -136,8 +136,8 @@ html.device-enabled .device.iphone-5.portrait .device-screen{
 }
 html.device-enabled .device.iphone-5.landscape .device-preview-wrap{
     background-image: url(img/iphone-5-landscape.png);
-    width: 392px;
-    height: 698px;
+    width: 698px;
+    height: 392px;
 }
 html.device-enabled .device.iphone-5.landscape .device-screen{
     top: 26px;
