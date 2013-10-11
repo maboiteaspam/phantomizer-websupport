@@ -33,7 +33,9 @@ define(["vendors/utils/getVar",'vendors/go-qunit/phantomjs-bridge','vendors/go-q
 
             $("<div id=\"qunit\"></div>").prependTo("body");
             $("<div id=\"qunit-fixture\"></div>").prependTo("body");
-
+            $("#qunit").css("position","fixed")
+            $("#qunit").css("z-index","2")
+            $("#qunit").css("width","100%")
             QUnit.load();
             require(that.spec_files,function(){
                 that.tests = [];
