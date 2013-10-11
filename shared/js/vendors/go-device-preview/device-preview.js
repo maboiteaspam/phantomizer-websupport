@@ -70,8 +70,9 @@ define([], function() {
                 location = less_param(location,"device_mode=")
                 location = less_param(location,"no_dashboard=")
                 location = more_param(location,"no_dashboard=true")
-                $("style, link").remove();
-                $("<link rel='stylesheet' type='text/css' href='/js/vendors/go-device-preview/device-preview.css' /><div class='device-preview-wrap'><iframe class='device-screen' src='"+location+"'></iframe></div>")
+                $("<link rel='stylesheet' type='text/css' href='/js/vendors/go-device-preview/device-preview.css' />")
+                    .appendTo(top_node);
+                $("<div class='device-preview-wrap'><iframe class='device-screen' src='"+location+"'></iframe></div>")
                     .appendTo(top_node);
             }
         }
