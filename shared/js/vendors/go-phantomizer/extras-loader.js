@@ -37,7 +37,7 @@ define([
                 if( has_loaded ){
                     DevicePreviewLoader.start(function(){
                         DashBoardLoader.load();
-                        DashBoardLoader.start(function(){ });
+                        DashBoardLoader.start(function(){ /* explicitly don't go next : to not render the page */ });
                     });
                 }else{
                     QUnitLoader.load(next);
@@ -48,7 +48,7 @@ define([
 
         phantomizer.afterClientRender(function(next){
             if( has_loaded_preview ){
-                //next();
+                //next(); // should never reach that statement
             }else{
                 DashBoardLoader.load();
                 DashBoardLoader.start(next);
@@ -56,7 +56,7 @@ define([
         });
         phantomizer.afterRender(function(next){
             if( has_loaded_preview ){
-                //next();
+                //next();; // should never reach that statement, neither
             }else{
                 QUnitLoader.start(next);
             }
