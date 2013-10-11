@@ -31,8 +31,8 @@ define(["vendors/utils/getVar",'vendors/go-qunit/phantomjs-bridge','vendors/go-q
         if( that.spec_files.length > 0 ){
             $("head").append("<link rel=\"stylesheet\" href=\"/js/vendors/go-qunit/qunit-1.11.0.css\">");
 
-            $("<div id=\"qunit\"></div>").prependTo("body")
-            $("<div id=\"qunit-fixture\"></div>").prependTo("body")
+            $("<div id=\"qunit\"></div>").prependTo("body");
+            $("<div id=\"qunit-fixture\"></div>").prependTo("body");
 
             QUnit.load();
             require(that.spec_files,function(){
@@ -48,26 +48,26 @@ define(["vendors/utils/getVar",'vendors/go-qunit/phantomjs-bridge','vendors/go-q
                         that.tests[n].init(iter);
                     }
                     if(n==d){
-                        if( next ) next();
+                        if( next ) next(true);
                     }
                 }
                 iter();
             });
         }else if( next ){
-            next();
+            next(false);
         }
     }
     QUnitLoader.prototype.start = function(next){
         var that = this;
+        var started=false;
         if( that.spec_files.length > 0 ){
             for( var n in that.tests){
                 that.tests[n].run();
             }
             QUnit.start();
-            if( next ) next();
-        }else if( next ){
-            next();
+            started=true;
         }
+        if( next ) next(started);
     }
 
     return QUnitLoader;

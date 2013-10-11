@@ -1,7 +1,10 @@
 define(["vendors/utils/getVar","vendors/go-dashboard/dashboard-ui"], function(getVar,$){
     var DashBoardLoader = function(){
         var no_dashboard = getVar("no_dashboard");
-        if( no_dashboard != false && window.no_dashboard != true )
+
+        if( no_dashboard != false )
+            this.enabled = false;
+        else if( window.no_dashboard!= undefined && window.no_dashboard != true )
             this.enabled = false;
 
 
@@ -9,10 +12,14 @@ define(["vendors/utils/getVar","vendors/go-dashboard/dashboard-ui"], function(ge
     DashBoardLoader.prototype.enabled = true;
     DashBoardLoader.prototype.load = function(next){
         var that = this;
-        if( $("#stryke-db").length == 0 ){
-            $("body").append("<div id='stryke-db'></div>")
+        var loaded = false;
+        if( that.enabled ){
+            if( $("#stryke-db").length == 0 ){
+                $("body").append("<div id='stryke-db'></div>")
+            }
+            loaded = true;
         }
-        if( next ) next();
+        if( next ) next(loaded);
     }
     DashBoardLoader.prototype.start = function(next){
         var that = this;
