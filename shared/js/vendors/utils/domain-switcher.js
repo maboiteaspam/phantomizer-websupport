@@ -24,17 +24,11 @@ define([],function () {
             if(b.browsed.indexOf){ // is it a string ?
                 if(b.browsed == browsed ){
                     var ret = b.consumed;
-                    if( window.location.port != "80" ){
-                        ret += ":"+window.location.port;
-                    }
                     return ret;
                 }
             }else{  // then it is a function handler
                 if( b.browsed(browsed) ){
                     var ret = b.consumed;
-                    if( window.location.port != "80" ){
-                        ret += ":"+window.location.port;
-                    }
                     return ret;
                 }
             }
