@@ -19,38 +19,63 @@ define([], function() {
         that.excludes = [];
         that.excludes = merge(that.default_excludes, excludes);
 
+
+        function more_param(loc, param_to_update) {
+            loc = loc.replace(param_to_update + "&", "");
+
+            if (loc.indexOf("?") == -1) {
+                loc += "?" + param_to_update + "";
+            } else {
+                loc += "&" + param_to_update + "";
+            }
+            return loc;
+        }
+        function less_param(loc, param_to_update) {
+            var params = param_to_update.split("=");
+
+            if( params[1] == "" ){
+                var pattern = ".*[&?]"+params[0]+"=([^&]*)"
+                pattern = new RegExp(pattern,"i");
+                var matches = loc.match(pattern)
+                if ( matches ) {
+                    param_to_update = params[0]+"="+matches[1];
+                } else {
+                    param_to_update = "";
+                }
+            }
+
+            if( param_to_update != "" ){
+                loc = loc.replace(param_to_update + "&", "");
+                loc = loc.replace(param_to_update + "", "");
+
+                if (loc.slice(loc.length - 1) == "&")
+                    loc = loc.slice(0, loc.length - 1);
+                else if (loc.slice(loc.length - 1) == "?")
+                    loc = loc.slice(0, loc.length - 1);
+            }
+            return loc;
+        }
+
+
         that.wrap_nodes = function(top_node){
             if( $(top_node).children(".device-preview-wrap").length == 0 ){
                 var nodes = $("body").children();
                 for(var n in that.excludes ){
                     nodes = nodes.not( that.excludes[n] );
                 }
-                $("<link rel='stylesheet' type='text/css' href='/js/vendors/go-device-preview/device-preview.css' /><div class='device-preview-wrap'><div class='device-screen'></div></div>")
-                    .appendTo(top_node)
+                var location = window.location.href;
+                location = less_param(location,"device=")
+                location = less_param(location,"device_mode=")
+                location = less_param(location,"no_dashboard=")
+                location = more_param(location,"no_dashboard=true")
 
-                $(nodes).each(function(n, node){
-                    if( node.id == "" )
-                        node.id = "auto-"+n
-                    $("<div id='anchor-device-"+(node.id)+"' class='anchor-device'></div>").insertAfter(node);
-                })
-                nodes.appendTo(".device-screen")
-            }else{
-                $(".anchor-device").each(function(n, node){
-                    var id = node.id.substring(("anchor-device-").length)
-                    $("#"+id).appendTo(".device-screen")
-                })
+                $("style, link").remove();
+                $("<link rel='stylesheet' type='text/css' href='/js/vendors/go-device-preview/device-preview.css' /><div class='device-preview-wrap'><iframe class='device-screen' src='"+location+"'></iframe></div>")
+                    .appendTo(top_node);
+                nodes.remove();
             }
-            return $(top_node).children(".device-preview-wrap").first()
         }
         that.unwrap_nodes = function(top_node){
-            var nodes = $(".device-screen").children();
-            if( nodes.length > 0 ){
-                $(nodes).each(function(n, node){
-                    var id = "anchor-device-"+node.id
-                    $(node).insertBefore("#"+id)
-                })
-            }
-            return $(top_node).children(".device-preview-wrap").first()
         }
         that.DoFlip = function(){
             $('.device-screen').css("overflow-y", "");
@@ -80,30 +105,14 @@ define([], function() {
             that.device = device;
             if( device == "" ) return ;
             var top_node = that.top_node;
-            var wrap_node = that.wrap_nodes( top_node );
+            that.wrap_nodes( top_node );
 
+            $("html").removeClass("device-disabled");
             $("html").addClass("device-enabled");
             $(".device").addClass(that.device)
             $(".device").addClass(that.mode);
 
             $(".device-decoration").show();
-
-            function hideScrollBar(ev){
-                var t = $('.device-screen').data("w")
-                $('.device-screen').css("overflow-y", "")
-                $('.device-screen').css( "width", t+"px" )
-            }
-            function showScrollBar(){
-                var t = $('.device-screen').css("width");
-                t = parseInt(t);
-                $('.device-screen').data("w",t)
-                $('.device-screen').css( "width", (t+15)+"px" )
-                $('.device-screen').css("overflow-y", "scroll")
-            }
-            $('.device-screen').off("mouseleave")
-            $(".device-screen").on("mouseleave",hideScrollBar)
-            $('.device-screen').off("mouseenter")
-            $(".device-screen").on("mouseenter",showScrollBar)
         }
         that.DisableDevice = function(){
             $('.device-screen').css("overflow-y", "");
@@ -112,10 +121,9 @@ define([], function() {
             $(".device").removeClass(that.device)
             $(".device").removeClass(that.mode);
             $("html").removeClass("device-enabled");
+            $("html").addClass("device-disabled");
             if( that.device == "" ) return ;
             that.device = "";
-            var top_node = that.top_node
-            var wrap_node = that.unwrap_nodes(top_node)
         }
 
         function merge(arr,arr1){
