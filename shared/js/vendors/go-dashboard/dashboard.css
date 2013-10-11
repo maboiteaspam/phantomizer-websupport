@@ -1,5 +1,11 @@
 /* Note that because of ie6, not > selector...*/
 /* struct first */
+
+#stryke-db{
+    z-index: 10;
+    position: fixed;
+}
+
 .dashboard{
     position: fixed;
     width:100%;
