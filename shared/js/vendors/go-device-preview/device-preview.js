@@ -63,16 +63,16 @@ define([], function() {
                 for(var n in that.excludes ){
                     nodes = nodes.not( that.excludes[n] );
                 }
+                nodes.remove();
+
                 var location = window.location.href;
                 location = less_param(location,"device=")
                 location = less_param(location,"device_mode=")
                 location = less_param(location,"no_dashboard=")
                 location = more_param(location,"no_dashboard=true")
-
                 $("style, link").remove();
                 $("<link rel='stylesheet' type='text/css' href='/js/vendors/go-device-preview/device-preview.css' /><div class='device-preview-wrap'><iframe class='device-screen' src='"+location+"'></iframe></div>")
                     .appendTo(top_node);
-                nodes.remove();
             }
         }
         that.unwrap_nodes = function(top_node){
