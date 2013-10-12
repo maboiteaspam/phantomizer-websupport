@@ -1,4 +1,5 @@
-define([], function() {
+define(["vendors/utils/url_util"], function(url_util) {
+    url_util = new url_util();
     var DevicePreviewFacade = function(top_node, devices, excludes){
 
         var that = this;
@@ -19,46 +20,8 @@ define([], function() {
         that.excludes = [];
         that.excludes = merge(that.default_excludes, excludes);
 
-
-        function more_param(loc, param_to_update) {
-            loc = loc.replace(param_to_update + "&", "");
-
-            if (loc.indexOf("?") == -1) {
-                loc += "?" + param_to_update + "";
-            } else {
-                loc += "&" + param_to_update + "";
-            }
-            return loc;
-        }
-        function less_param(loc, param_to_update) {
-            var params = param_to_update.split("=");
-
-            if( params[1] == "" ){
-                var pattern = ".*[&?]"+params[0]+"=([^&]*)"
-                pattern = new RegExp(pattern,"i");
-                var matches = loc.match(pattern)
-                if ( matches ) {
-                    param_to_update = params[0]+"="+matches[1];
-                } else {
-                    param_to_update = "";
-                }
-            }
-
-            if( param_to_update != "" ){
-                loc = loc.replace(param_to_update + "&", "");
-                loc = loc.replace(param_to_update + "", "");
-
-                if (loc.slice(loc.length - 1) == "&")
-                    loc = loc.slice(0, loc.length - 1);
-                else if (loc.slice(loc.length - 1) == "?")
-                    loc = loc.slice(0, loc.length - 1);
-            }
-            return loc;
-        }
-
-
         that.wrap_nodes = function(top_node){
-            if( $(top_node).children(".device-preview-wrap").length == 0 ){
+            if( $(top_node).find(".device-preview-wrap").length == 0 ){
                 var nodes = $("body").children();
                 for(var n in that.excludes ){
                     nodes = nodes.not( that.excludes[n] );
@@ -66,10 +29,10 @@ define([], function() {
                 nodes.remove();
 
                 var location = window.location.href;
-                location = less_param(location,"device=")
-                location = less_param(location,"device_mode=")
-                location = less_param(location,"no_dashboard=")
-                location = more_param(location,"no_dashboard=true")
+                location = url_util.less_param(location,"device=")
+                location = url_util.less_param(location,"device_mode=")
+                location = url_util.less_param(location,"no_dashboard=")
+                location = url_util.more_param(location,"no_dashboard=true")
                 $("<link rel='stylesheet' type='text/css' href='/js/vendors/go-device-preview/device-preview.css' />")
                     .appendTo(top_node);
                 $("<div class='device-preview-wrap'><iframe class='device-screen' src='"+location+"'></iframe></div>")
