@@ -7,7 +7,8 @@ define(["vendors/utils/getVar","vendors/go-dashboard/dashboard-ui"], function(ge
         else if( window.no_dashboard!= undefined && window.no_dashboard != true )
             this.enabled = false;
 
-
+        if(self!=top)
+            this.enabled = false;
     }
     DashBoardLoader.prototype.enabled = true;
     DashBoardLoader.prototype.load = function(next){
