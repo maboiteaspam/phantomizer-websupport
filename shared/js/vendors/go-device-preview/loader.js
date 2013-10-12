@@ -2,6 +2,9 @@ define(["vendors/utils/getVar","vendors/go-device-preview/device-preview"], func
     var DeviceLoader = function(){
         this.device = getVar("device") || false;
         this.device_mode = getVar("device_mode") || "portrait";
+
+        if(self!=top)
+            this.device = false;
     }
     DeviceLoader.prototype.device = "";
     DeviceLoader.prototype.device_mode = "";
