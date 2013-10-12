@@ -1,6 +1,7 @@
-define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax"], function(DevicePreviewFacade, mockajax) {
+define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax","vendors/utils/url_util"], function(DevicePreviewFacade, mockajax,url_util) {
     return function Dashboard() {
         var that = this;
+        url_util = new url_util();
 
         var current_location = window.location;
         var loc = location.pathname;
@@ -39,57 +40,8 @@ define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax"], fu
         that.Optimizations = ko.observable("");
         that.delay = ko.observable(null);
 
-
-        function update_preview_now_loc(param_to_update) {
-            var loc = that.previewNowUrl();
-            loc = loc.replace(param_to_update + "&", "");
-
-            if (loc.indexOf("?") == -1) {
-                loc += "?" + param_to_update + "";
-            } else {
-                loc += "&" + param_to_update + "";
-            }
-
-            that.previewNowUrl(loc);
-        }
-        function get_param(param_name) {
-            var pattern = ".*[&?]"+param_name+"=([^&]*)"
-            pattern = new RegExp(pattern,"i");
-            var matches = that.previewNowUrl().match(pattern)
-            var param = "";
-            if ( matches ) {
-                param = matches[1];
-            }
-            return param
-        }
-
-        function less_preview_now_loc(param_to_update) {
-            var loc = that.previewNowUrl();
-            var params = param_to_update.split("=");
-
-            if( params[1] == "" ){
-                var pattern = ".*[&?]"+params[0]+"=([^&]*)"
-                pattern = new RegExp(pattern,"i");
-                var matches = that.previewNowUrl().match(pattern)
-                if ( matches ) {
-                    param_to_update = params[0]+"="+matches[1];
-                } else {
-                    param_to_update = "";
-                }
-            }
-
-            if( param_to_update != "" ){
-                loc = loc.replace(param_to_update + "&", "");
-                loc = loc.replace(param_to_update + "", "");
-
-                if (loc.slice(loc.length - 1) == "&")
-                    loc = loc.slice(0, loc.length - 1);
-                else if (loc.slice(loc.length - 1) == "?")
-                    loc = loc.slice(0, loc.length - 1);
-
-                that.previewNowUrl(loc);
-            }
-        }
+        var no_dashboard_enabled = true;
+        var doc_gen_enabled = true;
 
         that.SetCurrentLocation = function (location) {
             var loc = location.pathname;
@@ -100,24 +52,30 @@ define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax"], fu
         };
 
         that.GenerateDocumentation = function () {
-            that.DocumentationStatus("");
-            $.get("/sryke_generate_documentation").done(function (content) {
-                that.DocumentationStatus("Ok, documentation is ready.");
-            });
+            if( doc_gen_enabled ){
+                that.DocumentationStatus("");
+                $.get("/sryke_generate_documentation").done(function (content) {
+                    that.DocumentationStatus("Ok, documentation is ready.");
+                });
+            }
         };
         that.goPreview = function () {
             window.location.href = that.previewNowUrl();
         }
         that.goPreviewNoDashBoard = function () {
-            that.previewNoDashboard(true);
-            window.location.href = that.previewNowUrl();
+            if(no_dashboard_enabled){
+                that.previewNoDashboard(true);
+                window.location.href = that.previewNowUrl();
+            }
         }
         that.previewNoDashboard.subscribe(function (newValue) {
+            var loc = that.previewNowUrl();
             if (newValue == true) {
-                update_preview_now_loc("no_dashboard=true");
+                loc = url_util.more_param(loc,"no_dashboard=true");
             } else {
-                less_preview_now_loc("no_dashboard=true");
+                loc = url_util.less_param(loc,"no_dashboard=true");
             }
+            that.previewNowUrl(loc);
         });
         that.chosenScript.subscribe(function (newValue) {
             if (newValue[0] == val_def[0]) {
@@ -140,41 +98,48 @@ define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax"], fu
             }
         });
         that.chosenSpecification.subscribe(function (newValue) {
+            var loc = that.previewNowUrl();
             if( newValue[0] == "" || newValue[0] == val_def[0] ){
-                less_preview_now_loc("spec_files=");
+                loc = url_util.less_param(loc,"spec_files=");
             }else{
-                less_preview_now_loc("spec_files=");
-                update_preview_now_loc("spec_files="+newValue[0]);
+                loc = url_util.less_param(loc,"spec_files=");
+                loc = url_util.more_param(loc,"spec_files="+newValue[0]);
             }
+            that.previewNowUrl(loc);
         });
         that.testSpeed.subscribe(function (newValue) {
+            var loc = that.previewNowUrl();
             if( newValue != "0.5" ){
-                less_preview_now_loc("speed=");
-                update_preview_now_loc("speed="+newValue);
+                loc = url_util.less_param(loc,"speed=");
+                loc = url_util.more_param(loc,"speed="+newValue);
             }else{
-                less_preview_now_loc("speed=");
+                loc = url_util.less_param(loc,"speed=");
             }
+            that.previewNowUrl(loc);
         });
 
 
 
 
-        var delay = get_param("delay");
+        var delay = url_util.get_param(that.previewNowUrl(),"delay");
         that.delay.subscribe(function (newValue) {
+            var loc = that.previewNowUrl();
             $.setMockDelay(newValue[0]);
             if( newValue[0] == "" ){
-                less_preview_now_loc("delay=");
+                loc = url_util.less_param(loc,"delay=");
             }else{
-                less_preview_now_loc("delay=");
-                update_preview_now_loc("delay="+newValue[0]);
+                loc = url_util.less_param(loc,"delay=");
+                loc = url_util.more_param(loc,"delay="+newValue[0]);
             }
+            that.previewNowUrl(loc);
         });
         that.delay([delay]);
 
 
-        var device = get_param("device");
-        var device_mode = get_param("device_mode")
+        var device = url_util.get_param(that.previewNowUrl(),"device");
+        var device_mode = url_util.get_param(that.previewNowUrl(),"device_mode")
         that.devicePreview(device);
+        if(device && !device_mode)device_mode="landscape";
         that.deviceMode(device_mode);
 
         if( $(".device").length == 0 ){
@@ -187,36 +152,43 @@ define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax"], fu
         }
 
         that.devicePreview.subscribe(function (newValue) {
-            less_preview_now_loc("device=");
+            var loc = that.previewNowUrl();
+            loc = url_util.less_param(loc,"device=");
             if( newValue != "" ){
                 DevicePreview.EnableDevice(newValue)
-                update_preview_now_loc("device="+newValue);
+                loc = url_util.more_param(loc,"device="+newValue);
             }else{
-                less_preview_now_loc("device_mode=");
+                loc = url_util.less_param(loc,"device_mode=");
                 DevicePreview.DisableDevice()
+                that.deviceMode("")
             }
+            that.previewNowUrl(loc);
         });
         that.deviceMode.subscribe(function (newValue) {
-            less_preview_now_loc("device_mode=");
+            var loc = that.previewNowUrl();
+            loc = url_util.less_param(loc,"device_mode=");
             if( newValue != "" ){
                 DevicePreview.EnableDeviceMode(newValue)
-                update_preview_now_loc("device_mode="+newValue);
+                loc = url_util.more_param(loc,"device_mode="+newValue);
             }
+            that.previewNowUrl(loc);
         });
         that.Optimizations.subscribe(function (newValue) {
-            less_preview_now_loc("build_profile=");
+            var loc = that.previewNowUrl();
+            loc = url_util.less_param(loc,"build_profile=");
             if( newValue != "" ){
-                update_preview_now_loc("build_profile="+newValue);
+                loc = url_util.more_param(loc,"build_profile="+newValue);
             }
+            that.previewNowUrl(loc);
         });
 
-        var spec_loc = get_param("spec_files")
+        var spec_loc = url_util.get_param(that.previewNowUrl(),"spec_files")
         that.chosenSpecification([spec_loc]);
 
-        var build_profile = get_param("build_profile")
+        var build_profile = url_util.get_param(that.previewNowUrl(),"build_profile")
         that.Optimizations([build_profile]);
 
-        var speed = get_param("speed")
+        var speed = url_util.get_param(that.previewNowUrl(),"speed")
         if( speed != "" ){
             that.testSpeed(speed);
         }
@@ -229,6 +201,13 @@ define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax"], fu
             that.networkBandwidth.subscribe(function (newValue) {
                 $.get("/stryke_bdw/" + newValue);
             });
+        }).fail(function(){
+            $("#network_bandwidth").attr("disabled","disabled");
+            $("#build_profile").attr("disabled","disabled");
+            $("#no_dashboard_cb").hide();
+            $("#no_dashboard").css("opacity",0.5);
+            $("#cache_clean").css("opacity",0.5).unbind("click");
+            no_dashboard_enabled = false;
         });
 
         function disable_previous_options( select, value ){
@@ -258,8 +237,15 @@ define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax"], fu
             disable_previous_options($("#network_congestion_max"), newValue);
             that.networkMinCongestion.subscribe(function (newValue) {
                 disable_previous_options($("#network_congestion_max"), newValue);
-                $.get("/stryke_min_congestion/" + newValue);
+                $.get("/stryke_min_congestion/" + newValue)
             });
+        }).fail(function(){
+                $("#network_congestion_min").attr("disabled","disabled");
+                $("#build_profile").attr("disabled","disabled");
+                $("#no_dashboard_cb").hide();
+                $("#no_dashboard").css("opacity",0.5);
+                $("#cache_clean").css("opacity",0.5).unbind("click");
+                no_dashboard_enabled = false;
         });
 
         $.get("/stryke_get_max_congestion", function (newValue) {
@@ -267,8 +253,15 @@ define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax"], fu
             disable_next_options($("#network_congestion_min"), newValue);
             that.networkMaxCongestion.subscribe(function (newValue) {
                 disable_next_options($("#network_congestion_min"), newValue);
-                $.get("/stryke_max_congestion/" + newValue);
+                $.get("/stryke_max_congestion/" + newValue)
             });
+        }).fail(function(){
+                $("#network_congestion_max").attr("disabled","disabled");
+                $("#build_profile").attr("disabled","disabled");
+                $("#no_dashboard_cb").hide();
+                $("#no_dashboard").css("opacity",0.5);
+                $("#cache_clean").css("opacity",0.5).unbind("click");
+                no_dashboard_enabled = false;
         });
 
         
