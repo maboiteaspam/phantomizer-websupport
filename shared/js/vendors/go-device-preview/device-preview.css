@@ -99,8 +99,8 @@ html.device-enabled .device.iphone-3g.portrait .device-preview-wrap{
 }
 html.device-enabled .device.iphone-3g.portrait .device-screen{
     top: 109px;
-    left: 35px;
-    width: 321px;
+    left: 37px;
+    width: 333px;
     height: 486px;
 }
 html.device-enabled .device.iphone-3g.landscape .device-preview-wrap{
@@ -111,8 +111,8 @@ html.device-enabled .device.iphone-3g.landscape .device-preview-wrap{
 html.device-enabled .device.iphone-3g.landscape .device-screen{
     top: 35px;
     left: 109px;
-    width: 486px;
-    height: 321px;
+    width: 499px;
+    height: 319px;
 }
 html.device-enabled .device.iphone-3gs.portrait .device-preview-wrap{
     background-image: url(img/iphone-3gs.png);
@@ -120,9 +120,9 @@ html.device-enabled .device.iphone-3gs.portrait .device-preview-wrap{
     height: 698px;
 }
 html.device-enabled .device.iphone-3gs.portrait .device-screen{
-    top: 121px;
+    top: 120px;
     left: 35px;
-    width: 329px;
+    width: 344px;
     height: 462px;
 }
 html.device-enabled .device.iphone-3gs.landscape .device-preview-wrap{
@@ -131,10 +131,10 @@ html.device-enabled .device.iphone-3gs.landscape .device-preview-wrap{
     height: 392px;
 }
 html.device-enabled .device.iphone-3gs.landscape .device-screen{
-    top: 25px;
-    left: 119px;
-    width: 463px;
-    height: 333px;
+    top: 29px;
+    left: 120px;
+    width: 472px;
+    height: 330px;
 }
 html.device-enabled .device.iphone-4.portrait .device-preview-wrap{
     background-image: url(img/iphone-4.png);
@@ -142,9 +142,9 @@ html.device-enabled .device.iphone-4.portrait .device-preview-wrap{
     height: 698px;
 }
 html.device-enabled .device.iphone-4.portrait .device-screen{
-    top: 125px;
+    top: 126px;
     left: 34px;
-    width: 326px;
+    width: 338px;
     height: 471px;
 }
 html.device-enabled .device.iphone-4.landscape .device-preview-wrap{
@@ -155,7 +155,7 @@ html.device-enabled .device.iphone-4.landscape .device-preview-wrap{
 html.device-enabled .device.iphone-4.landscape .device-screen{
     top: 32px;
     left: 124px;
-    width: 472px;
+    width: 482px;
     height: 328px;
 }
 html.device-enabled .device.iphone-5.portrait .device-preview-wrap{
@@ -166,7 +166,7 @@ html.device-enabled .device.iphone-5.portrait .device-preview-wrap{
 html.device-enabled .device.iphone-5.portrait .device-screen{
     top: 101px;
     left: 31px;
-    width: 336px;
+    width: 347px;
     height: 498px;
 }
 html.device-enabled .device.iphone-5.landscape .device-preview-wrap{
@@ -177,7 +177,7 @@ html.device-enabled .device.iphone-5.landscape .device-preview-wrap{
 html.device-enabled .device.iphone-5.landscape .device-screen{
     top: 26px;
     left: 100px;
-    width: 497px;
+    width: 508px;
     height: 337px;
 }
 html.device-enabled .device.htc-one.portrait .device-preview-wrap{
@@ -188,7 +188,7 @@ html.device-enabled .device.htc-one.portrait .device-preview-wrap{
 html.device-enabled .device.htc-one.portrait .device-screen{
     top: 76px;
     left: 28px;
-    width: 341px;
+    width: 349px;
     height: 588px;
 }
 html.device-enabled .device.htc-one.landscape .device-preview-wrap{
@@ -199,8 +199,8 @@ html.device-enabled .device.htc-one.landscape .device-preview-wrap{
 html.device-enabled .device.htc-one.landscape .device-screen{
     top: 28px;
     left: 76px;
-    width: 588px;
-    height: 341px;
+    width: 598px;
+    height: 338px;
 }
 html.device-enabled .device.samsung-s4.portrait .device-preview-wrap{
     background-image: url(img/galaxy-s4.png);
@@ -209,8 +209,8 @@ html.device-enabled .device.samsung-s4.portrait .device-preview-wrap{
 }
 html.device-enabled .device.samsung-s4.portrait .device-screen{
     top: 66px;
-    left: 15px;
-    width: 369px;
+    left: 17px;
+    width: 376px;
     height: 669px;
 }
 html.device-enabled .device.samsung-s4.landscape .device-preview-wrap{
@@ -221,6 +221,6 @@ html.device-enabled .device.samsung-s4.landscape .device-preview-wrap{
 html.device-enabled .device.samsung-s4.landscape .device-screen{
     top: 12px;
     left: 67px;
-    width: 668px;
-    height: 369px;
+    width: 674px;
+    height: 368px;
 }
