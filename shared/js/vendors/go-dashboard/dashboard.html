@@ -73,7 +73,7 @@
 
             <h2>Optimizations</h2>
             <label>
-                <select data-bind="value: dashboard.Optimizations">
+                <select id="build_profile" data-bind="value: dashboard.Optimizations">
                     <option value="">None</option>
                     <option value="stryke-build">Build html</option>
                     <option value="stryke-assets-build">Build assets</option>
@@ -81,13 +81,13 @@
                 </select>
                 <br/></label>
 
-            <label><input type="checkbox" data-bind="checked: dashboard.previewNoDashboard" />No
+            <label id="no_dashboard_cb"><input type="checkbox" data-bind="checked: dashboard.previewNoDashboard" />No
                 dashboard : Hide dashboard to report more finely your page loading times
             </label>
             <br/>
             <a href="#" data-bind="attr:{href: dashboard.previewNowUrl}, click: dashboard.goPreview">Preview now</a>
             &nbsp;||&nbsp;
-            <a href="#" data-bind="attr:{href: dashboard.previewNowUrl}, click: dashboard.goPreviewNoDashBoard">Preview without DashBoard</a>
+            <a href="#" id="no_dashboard" data-bind="attr:{href: dashboard.previewNowUrl}, click: dashboard.goPreviewNoDashBoard">Preview without DashBoard</a>
             &nbsp;||&nbsp;
             <a href="#" id="cache_clean">Purge the cache</a>
         </div>
