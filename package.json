@@ -1,24 +1,23 @@
 {
     "name": "phantomizer-websupport",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "private": true,
     "description": "Client side javascript libraries and utilities for phantomizer application",
     "keywords": "",
     "bugs": {
-        "url" : "http://github.com/maboiteaspam/phantomizer-websupport/issues"
-        , "email" : "none@host.com"
+        "url": "http://github.com/maboiteaspam/phantomizer-websupport/issues",
+        "email": "none@host.com"
     },
-    "license" : "mit",
+    "license": "mit",
     "directories.lib": "lib/",
-    "repository" :{
-        "type" : "git"
-        , "url" : "http://github.com/maboiteaspam/phantomizer-websupport.git"
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/maboiteaspam/phantomizer-websupport.git"
     },
     "main": "lib/websupport.js",
     "dependencies": {
         "phantomizer-libutil": "maboiteaspam/phantomizer-libutil",
         "grunt": "0.4.x"
     },
-    "devDependencies": {
-    }
+    "devDependencies": {}
 }
