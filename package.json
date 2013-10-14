@@ -16,7 +16,7 @@
     },
     "main": "lib/websupport.js",
     "dependencies": {
-        "phantomizer-libutil": "maboiteaspam/phantomizer-libutil",
+        "phantomizer-libutil": "maboiteaspam/maboiteaspam/maboiteaspam/phantomizer-libutil#010b357",
         "grunt": "0.4.x"
     },
     "devDependencies": {}
