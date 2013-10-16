@@ -1,7 +1,9 @@
 'use strict';
 
 var is_phantom;
-define(["vendors/utils/getVar",'vendors/go-qunit/phantomjs-bridge','vendors/go-qunit/qunit-1.12.0'],function( getVar, bridge){
+define(["vendors/utils/mockajax","vendors/utils/url_util",'vendors/go-qunit/phantomjs-bridge','vendors/go-qunit/qunit-1.12.0'],function( mockajax, url_util, bridge){
+
+    url_util = new url_util();
 
     var QUnit = window.QUnit;
     QUnit.config.autostart = false;
@@ -14,13 +16,13 @@ define(["vendors/utils/getVar",'vendors/go-qunit/phantomjs-bridge','vendors/go-q
     }
 
     var QUnitLoader = function(){
-        var spec_files = getVar("spec_files");
+        var spec_files = url_util.get_param( window.location.search,"spec_files");
         if( spec_files.length > 0 ){
             this.spec_files = spec_files.split(",");
         }
 
-        var no_dashboard = getVar("no_dashboard");
-        var device = getVar("device-enabled");
+        var no_dashboard = url_util.get_param( window.location.search,"no_dashboard");
+        var device = url_util.get_param( window.location.search,"device-enabled");
 
     }
     QUnitLoader.prototype.spec_files = [];
@@ -31,10 +33,8 @@ define(["vendors/utils/getVar",'vendors/go-qunit/phantomjs-bridge','vendors/go-q
         if( that.spec_files.length > 0 ){
             $("head").append("<link rel=\"stylesheet\" href=\"/js/vendors/go-qunit/qunit-1.11.0.css\">");
 
-            $("<div id=\"qunit\"></div>").prependTo("body");
-            $("<div id=\"qunit-fixture\"></div>").prependTo("body");
-            $("#qunit").css("position","fixed")
-            $("#qunit").css("z-index","2")
+            $("<div id=\"qunit\"></div>").appendTo("body");
+            $("<div id=\"qunit-fixture\"></div>").appendTo("body");
             $("#qunit").css("width","100%")
             QUnit.load();
             require(that.spec_files,function(){
@@ -62,6 +62,8 @@ define(["vendors/utils/getVar",'vendors/go-qunit/phantomjs-bridge','vendors/go-q
     QUnitLoader.prototype.start = function(next){
         var that = this;
         var started=false;
+        var delay = url_util.get_param( location.search,"delay");
+        $.setMockDelay(delay || 0);
         if( that.spec_files.length > 0 ){
             for( var n in that.tests){
                 that.tests[n].run();
