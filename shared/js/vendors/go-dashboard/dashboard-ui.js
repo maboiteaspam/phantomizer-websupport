@@ -200,7 +200,10 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
             // catch report csslint
             $(el).find(".tab-qrcode").click(function () {
                 $('#qrcode').children().remove();
-                $('#qrcode').qrcode(window.location.origin+""+DashboardViewModel.previewNowUrl());
+                $('#qrcode').qrcode({
+                    text: window.location.origin+""+DashboardViewModel.previewNowUrl(),
+                    correctLevel: 1
+                });
             });
 
             ko.applyBindings({dashboard: DashboardViewModel}, $(el)[0]);
