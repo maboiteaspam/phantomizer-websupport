@@ -70,6 +70,9 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
                                         x = x.replace(/\\/g,"/");
                                         x = x.replace("//","/");
                                         x = x.replace("//","/");
+                                        if(x.substring(0,loc.length) != loc ){
+                                            x = loc+x;
+                                        }
                                         fn_found(x);
                                     }
                                 });
