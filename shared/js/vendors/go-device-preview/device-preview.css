@@ -20,7 +20,8 @@ html.device-disabled
 }
 
 
-html.device-enabled{
+html.device-enabled,
+html.device-enabled body{
     background-color: darkslategray;
 }
 html.device-enabled .device{
@@ -52,6 +53,20 @@ html.device-enabled .device-background{
 html.device-enabled .device-screen{
     position: absolute;
     background-color: white;
+    overflow: hidden !important;
+}
+html.device-enabled .device-screen.scrollable{
+    position: absolute;
+    background-color: white;
+    overflow: hidden !important;
+    transition-property: width;
+    transition-duration: .2s;
+    -webkit-transition-property: width;
+    -webkit-transition-duration: .2s;
+    -moz-transition-property: width;
+    -moz-transition-duration: .2s;
+    -o-transition-property: width;
+    -o-transition-duration: .2s;
 }
 
 html .device-decoration{
@@ -70,10 +85,13 @@ html.device-enabled .device.ipad.portrait .device-preview-wrap{
     height: 1141px;
 }
 html.device-enabled .device.ipad.portrait .device-screen{
-    top: 164px;
-    left: 185px;
-    width: 768px;
-    height: 1024px;
+    top: 126px;
+    left: 184px;
+    width: 788px;
+    height: 790px;
+}
+html.device-enabled .device.ipad.portrait .device-screen.scrollable{
+    width: 788px;
 }
 html.device-enabled .device.ipad.landscape{
     margin-top:-550px;
@@ -89,9 +107,13 @@ html.device-enabled .device.ipad.landscape .device-screen{
     width: 1024px;
     height: 768px;
 }
+html.device-enabled .device.ipad.landscape .device-screen.scrollable{
+    width: 1024px;
+}
 
 
 
+/* i3g */
 html.device-enabled .device.iphone-3g.portrait .device-preview-wrap{
     background-image: url(img/iphone-3g.png);
     width: 392px;
@@ -100,8 +122,11 @@ html.device-enabled .device.iphone-3g.portrait .device-preview-wrap{
 html.device-enabled .device.iphone-3g.portrait .device-screen{
     top: 109px;
     left: 37px;
-    width: 333px;
+    width: 323px;
     height: 486px;
+}
+html.device-enabled .device.iphone-3g.portrait .device-screen.scrollable{
+    width: 333px;
 }
 html.device-enabled .device.iphone-3g.landscape .device-preview-wrap{
     background-image: url(img/iphone-3g-landscape.png);
@@ -111,9 +136,17 @@ html.device-enabled .device.iphone-3g.landscape .device-preview-wrap{
 html.device-enabled .device.iphone-3g.landscape .device-screen{
     top: 35px;
     left: 109px;
-    width: 499px;
+    width: 489px;
     height: 319px;
 }
+html.device-enabled .device.iphone-3g.landscape .device-screen.scrollable{
+    width: 499px;
+}
+
+
+
+
+/* i3gs */
 html.device-enabled .device.iphone-3gs.portrait .device-preview-wrap{
     background-image: url(img/iphone-3gs.png);
     width: 392px;
@@ -122,8 +155,11 @@ html.device-enabled .device.iphone-3gs.portrait .device-preview-wrap{
 html.device-enabled .device.iphone-3gs.portrait .device-screen{
     top: 120px;
     left: 35px;
-    width: 344px;
+    width: 334px;
     height: 462px;
+}
+html.device-enabled .device.iphone-3gs.landscape .device-screen.scrollable{
+    width: 344px;
 }
 html.device-enabled .device.iphone-3gs.landscape .device-preview-wrap{
     background-image: url(img/iphone-3gs-landscape.png);
@@ -133,9 +169,17 @@ html.device-enabled .device.iphone-3gs.landscape .device-preview-wrap{
 html.device-enabled .device.iphone-3gs.landscape .device-screen{
     top: 29px;
     left: 120px;
-    width: 472px;
+    width: 462px;
     height: 330px;
 }
+html.device-enabled .device.iphone-3gs.landscape .device-screen.scrollable{
+    width: 472px;
+}
+
+
+
+
+/* i4 */
 html.device-enabled .device.iphone-4.portrait .device-preview-wrap{
     background-image: url(img/iphone-4.png);
     width: 392px;
@@ -144,8 +188,11 @@ html.device-enabled .device.iphone-4.portrait .device-preview-wrap{
 html.device-enabled .device.iphone-4.portrait .device-screen{
     top: 126px;
     left: 34px;
-    width: 338px;
+    width: 328px;
     height: 471px;
+}
+html.device-enabled .device.iphone-4.landscape .device-screen.scrollable{
+    width: 338px;
 }
 html.device-enabled .device.iphone-4.landscape .device-preview-wrap{
     background-image: url(img/iphone-4-landscape.png);
@@ -155,9 +202,17 @@ html.device-enabled .device.iphone-4.landscape .device-preview-wrap{
 html.device-enabled .device.iphone-4.landscape .device-screen{
     top: 32px;
     left: 124px;
-    width: 482px;
+    width: 472px;
     height: 328px;
 }
+html.device-enabled .device.iphone-4.landscape .device-screen.scrollable{
+    width: 482px;
+}
+
+
+
+
+/* i5 */
 html.device-enabled .device.iphone-5.portrait .device-preview-wrap{
     background-image: url(img/iphone-5.png);
     width: 392px;
@@ -166,8 +221,11 @@ html.device-enabled .device.iphone-5.portrait .device-preview-wrap{
 html.device-enabled .device.iphone-5.portrait .device-screen{
     top: 101px;
     left: 31px;
-    width: 347px;
+    width: 337px;
     height: 498px;
+}
+html.device-enabled .device.iphone-5.landscape .device-screen.scrollable{
+    width: 347px;
 }
 html.device-enabled .device.iphone-5.landscape .device-preview-wrap{
     background-image: url(img/iphone-5-landscape.png);
@@ -177,9 +235,17 @@ html.device-enabled .device.iphone-5.landscape .device-preview-wrap{
 html.device-enabled .device.iphone-5.landscape .device-screen{
     top: 26px;
     left: 100px;
-    width: 508px;
+    width: 498px;
     height: 337px;
 }
+html.device-enabled .device.iphone-5.landscape .device-screen.scrollable{
+    width: 508px;
+}
+
+
+
+
+/* htc1 */
 html.device-enabled .device.htc-one.portrait .device-preview-wrap{
     background-image: url(img/htc-one.png);
     width: 395px;
@@ -188,8 +254,11 @@ html.device-enabled .device.htc-one.portrait .device-preview-wrap{
 html.device-enabled .device.htc-one.portrait .device-screen{
     top: 76px;
     left: 28px;
-    width: 349px;
+    width: 339px;
     height: 588px;
+}
+html.device-enabled .device.htc-one.portrait .device-screen.scrollable{
+    width: 349px;
 }
 html.device-enabled .device.htc-one.landscape .device-preview-wrap{
     background-image: url(img/htc-one-landscape.png);
@@ -199,9 +268,17 @@ html.device-enabled .device.htc-one.landscape .device-preview-wrap{
 html.device-enabled .device.htc-one.landscape .device-screen{
     top: 28px;
     left: 76px;
-    width: 598px;
+    width: 588px;
     height: 338px;
 }
+html.device-enabled .device.htc-one.landscape .device-screen.scrollable{
+    width: 598px;
+}
+
+
+
+
+/* s4 */
 html.device-enabled .device.samsung-s4.portrait .device-preview-wrap{
     background-image: url(img/galaxy-s4.png);
     width: 395px;
@@ -210,8 +287,11 @@ html.device-enabled .device.samsung-s4.portrait .device-preview-wrap{
 html.device-enabled .device.samsung-s4.portrait .device-screen{
     top: 66px;
     left: 17px;
-    width: 376px;
+    width: 366px;
     height: 669px;
+}
+html.device-enabled .device.samsung-s4.portrait .device-screen.scrollable{
+    width: 376px;
 }
 html.device-enabled .device.samsung-s4.landscape .device-preview-wrap{
     background-image: url(img/galaxy-s4-landscape.png);
@@ -221,6 +301,9 @@ html.device-enabled .device.samsung-s4.landscape .device-preview-wrap{
 html.device-enabled .device.samsung-s4.landscape .device-screen{
     top: 12px;
     left: 67px;
-    width: 674px;
+    width: 664px;
     height: 368px;
+}
+html.device-enabled .device.samsung-s4.landscape .device-screen.scrollable{
+    width: 674px;
 }

@@ -1,4 +1,4 @@
-define(["vendors/utils/url_util"], function(url_util) {
+define(["vendors/utils/url_util","vendors/utils/debounce"], function(url_util,debounce) {
     url_util = new url_util();
     var DevicePreviewFacade = function(top_node, devices, excludes){
 
@@ -77,6 +77,26 @@ define(["vendors/utils/url_util"], function(url_util) {
             $(".device").addClass(that.mode);
 
             $(".device-decoration").show();
+
+            $('.device-screen').on("load",function(){
+                var oDoc = $(".device-screen").get(0);
+                oDoc = (oDoc.contentWindow || oDoc.contentDocument);
+                if (oDoc.document) oDoc = oDoc.document;
+                $(oDoc).ready(function() {
+                    var html = $(oDoc).find("html");
+                    var sc = $('.device-screen');
+                    var debounced = debounce(function(){
+                        if( html.height()>0 ){
+                            if (html.height() > sc.height() ) {
+                                sc.addClass("scrollable");
+                            }else{
+                                sc.removeClass("scrollable")
+                            }
+                        }
+                    },200);
+                    window.setInterval(debounced,250);
+                });
+            })
         }
         that.DisableDevice = function(){
             $('.device-screen').css("overflow-y", "");
