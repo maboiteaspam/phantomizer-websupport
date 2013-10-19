@@ -1,6 +1,8 @@
-define(["vendors/utils/getVar","vendors/go-dashboard/dashboard-ui"], function(getVar,$){
+define(["vendors/utils/url_util","vendors/go-dashboard/dashboard-ui"], function(url_util,$){
+    url_util = new url_util();
+
     var DashBoardLoader = function(){
-        var no_dashboard = getVar("no_dashboard");
+        var no_dashboard = url_util.get_param(window.location.search,"no_dashboard");
 
         if( no_dashboard != false )
             this.enabled = false;

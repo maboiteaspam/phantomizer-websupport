@@ -46,7 +46,7 @@ define([],function () {
         if ( matches ) {
             param = matches[1];
         }
-        return param
+        return decodeURIComponent(param);
     }
     return url_util;
 });

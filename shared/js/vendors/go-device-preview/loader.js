@@ -1,7 +1,9 @@
-define(["vendors/utils/getVar","vendors/go-device-preview/device-preview"], function(getVar,DevicePreviewFacade){
+define(["vendors/utils/url_util","vendors/go-device-preview/device-preview"], function(url_util,DevicePreviewFacade){
+    url_util = new url_util();
+
     var DeviceLoader = function(){
-        this.device = getVar("device") || false;
-        this.device_mode = getVar("device_mode") || "portrait";
+        this.device = url_util.get_param(window.location.search,"device") || false;
+        this.device_mode = url_util.get_param(window.location.search,"device_mode") || "portrait";
 
         if(self!=top)
             this.device = false;

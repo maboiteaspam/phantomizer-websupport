@@ -8,13 +8,14 @@ define([],function () {
         this.items = [];
         this.forced = false;
     };
-    domain_switcher.prototype.reference = function(browsed, consumed){
+    domain_switcher.prototype.reference = function(browsed, consumed,allow_ssl){
         this.items.push({
             browsed:browsed,
-            consumed:consumed
+            consumed:consumed,
+            allow_ssl:allow_ssl
         });
     };
-    domain_switcher.prototype.get = function(browsed){
+    domain_switcher.prototype.get_consumed = function(browsed){
         if( this.forced ){
             return this.forced;
         }
@@ -23,16 +24,22 @@ define([],function () {
             var b = this.items[n];
             if(b.browsed.indexOf){ // is it a string ?
                 if(b.browsed == browsed ){
-                    var ret = b.consumed;
-                    return ret;
+                    return b;
                 }
             }else{  // then it is a function handler
                 if( b.browsed(browsed) ){
-                    var ret = b.consumed;
-                    return ret;
+                    return b;
                 }
             }
         }
+    };
+    domain_switcher.prototype.get = function(url){
+        var domain = this.get_consumed();
+        return "http://"+domain.consumed+url;
+    };
+    domain_switcher.prototype.getSsl = function(url){
+        var domain = this.get_consumed();
+        return "http"+(domain.allow_ssl?"s":"")+"://"+domain.consumed+url;
     };
     domain_switcher.prototype.force = function(consumed){
         this.forced = consumed;
