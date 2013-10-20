@@ -19,6 +19,9 @@ define(["vendors/utils/mockajax","vendors/utils/url_util",'vendors/go-qunit/phan
         var spec_files = url_util.get_param( window.location.search,"spec_files");
         if( spec_files.length > 0 ){
             this.spec_files = spec_files.split(",");
+            for( var t in this.spec_files ){
+                this.spec_files[t] = this.spec_files[t].replace(/%2F/g,"/");
+            }
         }
 
         var no_dashboard = url_util.get_param( window.location.search,"no_dashboard");
