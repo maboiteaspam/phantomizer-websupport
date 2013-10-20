@@ -2,7 +2,16 @@ define([],function () {
 
     var now = new Date();
 
-    function inject_directive(directive, data){
+    function get_attributes(include_el){
+        var retour={};
+        var attrs = include_el.attributes;
+        for (var i=0, l=attrs.length; i<l; i++){
+            var attr = attrs.item(i)
+            retour[attr.nodeName] = attr.nodeValue;
+        }
+        return retour;
+    }
+    function inject_directive(directive, data, attrs){
         var scripts = [];
         var data_t = $(data);
         // iterate over tops node of the html tree, lookup for scripts
@@ -19,6 +28,13 @@ define([],function () {
         });
         // insert in place all nodes which are not scripts
         $(data_t).not("script").each(function(k,n){
+            for( var attr_name in attrs){
+                var c_attr = $(n).attr(attr_name);
+                if( !!c_attr && attrs[attr_name] != "") c_attr+=" "+attrs[attr_name];
+                else c_attr = attrs[attr_name];
+
+                if( c_attr ) $(n).attr(attr_name,c_attr);
+            }
             $(n).insertBefore($(directive));
         })
 
@@ -82,14 +98,16 @@ define([],function () {
     }
     function load_directives(directives, cb){
         $(directives).each(function(k,v){
-            $(v).removeClass("include");
-            $(v).addClass("included");
             var src = get_src(v);
+            $(v).removeAttr("src");
+            $(v).removeClass("include");
+            var attrs = get_attributes($(v).get(0))
+            $(v).addClass("included");
             if( !src ){
                 cb([]);
             }else{
                 $.get(src,function(data){
-                    var scripts = inject_directive($(v),data);
+                    var scripts = inject_directive($(v),data,attrs);
                     // remove include directive
                     $(v).remove();
                     cb(scripts);
@@ -115,11 +133,12 @@ define([],function () {
         }else{
             this.length += directives.length;
             var that = this;
+            directives.removeAttr("target");
             load_directives(directives,function(scripts){
                 for(var n in scripts ) that.scripts.push(scripts[n])
                 that. cur_length++;
                 if( that.cur_length == that.length ){
-                    cb();
+                    that.render_build(cb);
                 }
             });
         }
@@ -131,11 +150,12 @@ define([],function () {
         }else{
             this.length += directives.length;
             var that = this;
+            directives.removeAttr("target");
             load_directives(directives,function(scripts){
                 for(var n in scripts ) that.scripts.push(scripts[n])
                 that. cur_length++;
                 if( that.cur_length == that.length ){
-                    cb();
+                    that.render_client(cb);
                 }
             });
         }
