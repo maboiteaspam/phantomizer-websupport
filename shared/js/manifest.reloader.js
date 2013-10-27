@@ -1,14 +1,6 @@
 /* http://appcachefacts.info/ */
 (function(window){
     if (window.applicationCache) {
-    /*
-     window.applicationCache.onobsolete = function(e) {
-     window.location.reload();
-     }
-     window.applicationCache.addEventListener('onobsolete', function(e) {
-     window.location.reload();
-     }, false);
-    */
         var appCache = window.applicationCache;
         appCache.addEventListener('updateready', function(e) {
             if (appCache.status == appCache.UPDATEREADY) {
