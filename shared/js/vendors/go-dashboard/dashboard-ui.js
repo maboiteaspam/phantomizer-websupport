@@ -117,9 +117,6 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
             // catch cache clean
             $(el).find(".dashboard-scene #cache_clean").click(function () {
                 $.get("/stryke_clean");
-                if (window.applicationCache) {
-                    window.applicationCache.swapCache();
-                }
                 return false;
             });
 
