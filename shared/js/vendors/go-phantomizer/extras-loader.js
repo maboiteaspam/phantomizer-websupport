@@ -58,6 +58,7 @@ define([
             if( has_loaded_preview ){
                 //next();; // should never reach that statement, neither
             }else{
+// starts Qunit testing phase
                 QUnitLoader.start(next);
             }
         });
