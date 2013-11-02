@@ -1,4 +1,4 @@
-define(["vendors/utils/url_util","vendors/utils/go-underscore/debounce"], function(url_util,debounce) {
+define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url_util,debounce) {
     url_util = new url_util();
     var DevicePreviewFacade = function(top_node, devices, excludes){
 
