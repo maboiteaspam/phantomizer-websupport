@@ -63,13 +63,15 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
     phantomizer.prototype.when = function(){
         var dfd = new dfrer();
         var dfrers = arguments;
+        var cb_args = [];
         var todo_cnt = dfrers.length;
         var done_cnt = 0;
         for( var n=0;n<todo_cnt;n++){
             dfrers[n].always(function(){
                 done_cnt++;
+                cb_args.push(arguments)
                 if( done_cnt == todo_cnt ){
-                    dfd.resolve();
+                    dfd.resolve.apply(dfd,cb_args);
                 }
             });
         }
