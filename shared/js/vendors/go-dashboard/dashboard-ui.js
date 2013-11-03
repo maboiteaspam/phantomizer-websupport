@@ -205,7 +205,10 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
                 $('#qrcode').children().remove();
                 $('#qrcode').qrcode({
                     text: window.location.origin+""+DashboardViewModel.previewNowUrl(),
-                    correctLevel: 1
+                    correctLevel: 1,
+                    width: 128,
+                    height: 128,
+                    foreground: '#77953b'
                 });
             });
 
