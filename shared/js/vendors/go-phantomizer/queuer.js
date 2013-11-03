@@ -24,8 +24,8 @@ define([],function () {
             if( !document.getElementById("phantom_proof") ){
                 var h = document.getElementsByTagName("html")[0];
                 var c = h.getAttribute("class");
-                c = c?" "+c:"";
-                if( h ) h.setAttribute("class", c+" stryked")
+                c = c?c+" ":"";
+                if( h ) h.setAttribute("class", c+"stryked")
 
                 var s = document.createElement("script")
                 s.setAttribute("id", "phantom_proof")
