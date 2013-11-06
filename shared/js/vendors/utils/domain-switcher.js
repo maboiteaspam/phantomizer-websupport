@@ -8,11 +8,12 @@ define([],function () {
         this.items = [];
         this.forced = false;
     };
-    domain_switcher.prototype.reference = function(browsed, consumed,allow_ssl){
+    domain_switcher.prototype.reference = function(browsed, consumed,allow_ssl,allow_tracking){
         this.items.push({
             browsed:browsed,
             consumed:consumed,
-            allow_ssl:allow_ssl
+            allow_ssl:allow_ssl,
+            allow_tracking:allow_tracking
         });
     };
     domain_switcher.prototype.get_consumed = function(browsed){
@@ -40,6 +41,9 @@ define([],function () {
     domain_switcher.prototype.getSsl = function(url){
         var domain = this.get_consumed();
         return "http"+(domain.allow_ssl?"s":"")+"://"+domain.consumed+url;
+    };
+    domain_switcher.prototype.trackingAllowed = function(){
+        return this.get_consumed().allow_tracking==true;
     };
     domain_switcher.prototype.force = function(consumed){
         this.forced = consumed;
