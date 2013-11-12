@@ -35,7 +35,7 @@ define(["vendors/utils/dfrer","vendors/utils/json"],function(dfrer, json){
         // overwrite original ajax handler
         $.ajax = function(options){
             var mock = find_mock(options)
-
+// if a mock can be found, return the pre defiend response
             if( mock ){
                 var delay = mock.delay?mock.delay:mock_delay;
                 var dfd = new dfrer();
@@ -53,11 +53,12 @@ define(["vendors/utils/dfrer","vendors/utils/json"],function(dfrer, json){
                 }
                 return dfd;
             }else{
+// otherwise return normal request handler
                 return _ajax(options)
             }
         };
 
-        //
+// helper - create a rejected deferer
         $.rejected = function(data){
             var dfd = new dfrer();
             window.setTimeout(function(){
@@ -66,7 +67,7 @@ define(["vendors/utils/dfrer","vendors/utils/json"],function(dfrer, json){
             return dfd;
         };
 
-        //
+// helper - create a resolved deferer
         $.resolved = function(data){
             var dfd = new dfrer();
             window.setTimeout(function(){
@@ -75,7 +76,7 @@ define(["vendors/utils/dfrer","vendors/utils/json"],function(dfrer, json){
             return dfd;
         };
 
-        // mock an ajax call
+// force a specific delays on current mocks and those registered later
         $.setMockDelay = function(delay){
             mock_delay = delay;
             for( var n in mocks ){
@@ -83,12 +84,25 @@ define(["vendors/utils/dfrer","vendors/utils/json"],function(dfrer, json){
             }
         };
 
-        // mock an ajax call
+// actually mock an ajax call
         $.mock = function(options){
+            /*
+            options = {
+                 url: url                // catch that url
+                 ,dataType: "json"       // catch that datatype
+                 ,type: verb             // catch that verb
+                 ,delay: delay           // wait that delay
+                 ,respond: {
+                     code: parseInt(code)    // respond that code
+                     ,data: data             // respond that data
+                     ,dataType: dataType     // respond that datatype
+                 }
+             }
+             */
             mocks.push(options)
         };
 
-        // remove a mock
+// remove a mock
         $.removeMock = function(options){
             var found = false;
             var mock_index = find_mock_index(options)
