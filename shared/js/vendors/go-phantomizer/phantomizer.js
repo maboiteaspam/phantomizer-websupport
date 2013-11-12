@@ -25,17 +25,19 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
     phantomizer.prototype.render = function(main_fn){
         var that = this;
         add_to_queuer(that.queuer, that.before_render);
-        // Using render_static, this function will be called only for the build
+// During the build, the static template are loaded and built in
         that.queuer.render_static(function(next){
             that.template.render_build(next);
         });
         add_to_queuer(that.queuer, that.after_static_render);
+// during client side rendeering, render JIT template items
         that.queuer.render(function(next){
             that.template.render_client(next);
         });
         that.queuer.render(main_fn);
 
         add_to_queuer(that.queuer, that.after_client_render);
+// inject template scripts
         that.queuer.render(function(next){
             that.template.inject_scripts();
             next();
@@ -67,13 +69,15 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
         var todo_cnt = dfrers.length;
         var done_cnt = 0;
         for( var n=0;n<todo_cnt;n++){
-            dfrers[n].always(function(){
-                done_cnt++;
-                cb_args.push(arguments)
-                if( done_cnt == todo_cnt ){
-                    dfd.resolve.apply(dfd,cb_args);
-                }
-            });
+            (function(df_index){
+                dfrers[df_index].always(function(){
+                    done_cnt++;
+                    cb_args[df_index] = arguments;
+                    if( done_cnt == todo_cnt ){
+                        dfd.resolve.apply(dfd,cb_args);
+                    }
+                });
+            })(n);
         }
         return dfd;
     }
