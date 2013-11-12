@@ -44,4 +44,6 @@ define([],function(){
         });
         return QUnit;
     }
-})
+});
+// needed to copy the grunt-contrib-qunit bridge internally to not add another directory
+// to the webserver web paths (could probably be avoided by the date of that commit)
