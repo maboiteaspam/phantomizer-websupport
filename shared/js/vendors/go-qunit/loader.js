@@ -1,7 +1,13 @@
 'use strict';
 
+// let us know if we run a phantomjs instance
 var is_phantom;
-define(["vendors/utils/mockajax","vendors/utils/url_util",'vendors/go-qunit/phantomjs-bridge','vendors/go-qunit/qunit-1.12.0'],function( mockajax, url_util, bridge){
+
+define(["vendors/utils/mockajax",
+    "vendors/utils/url_util",
+    'vendors/go-qunit/phantomjs-bridge',
+    'vendors/go-qunit/qunit-1.12.0'],
+    function( mockajax, url_util, bridge){
 
     url_util = new url_util();
 
@@ -18,21 +24,15 @@ define(["vendors/utils/mockajax","vendors/utils/url_util",'vendors/go-qunit/phan
     var QUnitLoader = function(){
         var spec_files = url_util.get_param( window.location.search,"spec_files");
         if( spec_files.length > 0 ){
-            this.spec_files = spec_files.split(",");
-            for( var t in this.spec_files ){
-                this.spec_files[t] = this.spec_files[t].replace(/%2F/g,"/");
-            }
+            this.spec_files = spec_files.replace(/%2F/g,"/").split(",");
         }
-
-        var no_dashboard = url_util.get_param( window.location.search,"no_dashboard");
-        var device = url_util.get_param( window.location.search,"device-enabled");
-
     }
     QUnitLoader.prototype.spec_files = [];
     QUnitLoader.prototype.tests = [];
     QUnitLoader.prototype.load = function(next){
         var that = this;
-
+// iterate the spec files provided in get arguments, load them with require, and initialize them
+// it call next when all tests are done
         if( that.spec_files.length > 0 ){
             $("head").append("<link rel=\"stylesheet\" href=\"/js/vendors/go-qunit/qunit-1.11.0.css\">");
 
@@ -50,6 +50,7 @@ define(["vendors/utils/mockajax","vendors/utils/url_util",'vendors/go-qunit/phan
                 var iter = function(){
                     n++;
                     if( that.tests[n] != null ){
+// this where test load stubs
                         that.tests[n].init(iter);
                     }
                     if(n==d){
@@ -61,11 +62,12 @@ define(["vendors/utils/mockajax","vendors/utils/url_util",'vendors/go-qunit/phan
         }else if( next ){
             next(false);
         }
-    }
+    };
+// starts the qunit testing execution
     QUnitLoader.prototype.start = function(next){
         var that = this;
-        var started=false;
-        var delay = url_util.get_param( location.search,"delay");
+        var started = false;
+        var delay = url_util.get_param( location.search, "delay");
         $.setMockDelay(delay || 0);
         if( that.spec_files.length > 0 ){
             for( var n in that.tests){
