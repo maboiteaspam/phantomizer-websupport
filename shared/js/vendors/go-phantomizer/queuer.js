@@ -3,24 +3,24 @@ define([],function () {
         this.is_built = window.is_built;
         this.is_building = is_building;
     }
-    //  list handlers to execute
     queuer.prototype.is_built = null;
     queuer.prototype.is_building = null;
+//  list handlers to execute
     queuer.prototype.items = []
-    // queue an handler, rendered only for the build
+// queue an handler, to be rendered statically during the build
     queuer.prototype.render_static = function(handler, first){
         if( first == true ) this.items.unshift({'type':'static','handler':handler})
         else this.items.push({'type':'static','handler':handler})
     }
-    // queue an handler, rendered only for the client
+// queue an handler, to be rendered on client side
     queuer.prototype.render = function(handler, first){
         if( first == true ) this.items.unshift({'type':'dynamic','handler':handler})
         else this.items.push({'type':'dynamic','handler':handler})
     }
-    // call it when you finished to enqueue new handlers
+// run all handlers and fix the build by adding global variable
     queuer.prototype.run = function(){
         if( this.items.length == 0 ){
-            // phantom_proof is a script indicating that the build is done
+// inject phantom_proof : a script indicating that the build is done
             if( !document.getElementById("phantom_proof") ){
                 var h = document.getElementsByTagName("html")[0];
                 var c = h.getAttribute("class");
@@ -38,7 +38,7 @@ define([],function () {
                 tgt_script.parentNode.insertBefore(s,tgt_script);
             }
         }else{
-            // next will call the next handler in the queue
+            // next_ will call the next handler in the queue
             var item = this.items.shift();
             var next_ = (function(ph){
                 return function(){
