@@ -14,7 +14,7 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
         for(var n in render_list ){
             var render = render_list[n].render;
             if(render=="client"){
-                queuer.render_client(render_list[n].fn);
+                queuer.render(render_list[n].fn);
             }else if(render=="static"){
                 queuer.render_static(render_list[n].fn);
             }else{
