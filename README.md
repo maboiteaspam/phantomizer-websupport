@@ -4,7 +4,7 @@
 
 phantomizer-websupport adds a virtual /vendors/ directory url path to your phantomizer webserver.
 It contains various supported libraries that you are invited to use.
-It contains also the dashboard, the device previewer, phantomizer client side libraries to use and various extra utilities.
+It contains also the dashboard, the device previewer, phantomizer client side libraries and various extra utilities.
 Only phantomizer is mandatory to your client side application.
 Others libraries are here so that you are ready-to-develop
 
