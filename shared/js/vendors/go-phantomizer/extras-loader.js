@@ -1,3 +1,5 @@
+"use strict";
+
 define([
     'vendors/go-phantomizer/phantomizer',
     'vendors/go-qunit/loader',
