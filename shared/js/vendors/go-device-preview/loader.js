@@ -1,3 +1,5 @@
+"use strict";
+
 define(["vendors/utils/url_util","vendors/go-device-preview/device-preview"], function(url_util,DevicePreviewFacade){
     url_util = new url_util();
 

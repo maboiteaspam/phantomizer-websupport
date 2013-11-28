@@ -1,3 +1,5 @@
+"use strict";
+
 define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url_util,debounce) {
     url_util = new url_util();
     var DevicePreviewFacade = function(top_node, devices, excludes){
