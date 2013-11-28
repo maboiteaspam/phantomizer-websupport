@@ -1,3 +1,5 @@
+"use strict";
+
 define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax","vendors/utils/url_util"], function(DevicePreviewFacade, mockajax,url_util) {
     return function Dashboard() {
         var that = this;
