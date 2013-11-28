@@ -1,3 +1,5 @@
+"use strict";
+
 // lets you mock any jQuery / Zepto ajax call
 define(["vendors/utils/dfrer","vendors/utils/json"],function(dfrer, json){
     (function($) {

@@ -1,3 +1,5 @@
+"use strict";
+
 define([],function(){
     if (!window.JSON) {
         window.JSON = {

@@ -1,13 +1,15 @@
+"use strict";
+
 // deferrer helps you to emulate a jQuery.Deferrer object
 define([],function () {
     var dfrer = (function(){
         var deferred = function(){
             this.is_resolved = null;
-            this.arguments = null;
+            this.args = null;
             this._hdl = [];
             this._type = [];
             this.call_handler = function(fn){
-                fn.apply(undefined,this.arguments);
+                fn.apply(undefined,this.args);
             }
         }
         deferred.prototype.isRejected = function(){
@@ -17,7 +19,7 @@ define([],function () {
             return this.is_resolved == true;
         }
         deferred.prototype.reject = function(){
-            this.arguments = arguments;
+            this.args = arguments;
             this.is_resolved = false;
             for(var n in this._hdl){
                 if( this._type[n] =="fail" || this._type[n] =="always" ){
@@ -27,7 +29,7 @@ define([],function () {
             return this;
         }
         deferred.prototype.resolve = function(){
-            this.arguments = arguments;
+            this.args = arguments;
             this.is_resolved = true;
             for(var n in this._hdl){
                 if( this._type[n] =="done" || this._type[n] =="always" ){
