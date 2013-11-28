@@ -1,5 +1,7 @@
+"use strict";
 
-    (function($) {
+
+(function($) {
         ["Left", "Top"].forEach(function(name, i) {
             var method = "scroll" + name;
 

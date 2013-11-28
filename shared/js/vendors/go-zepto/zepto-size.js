@@ -1,5 +1,7 @@
+"use strict";
 
-    (function($) {
+
+(function($) {
         var ioDim, _base;
         ioDim = function(elem, Dimension, dimension, includeBorder, includeMargin) {
             var sides, size;
