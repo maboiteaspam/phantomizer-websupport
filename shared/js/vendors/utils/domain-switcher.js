@@ -16,19 +16,19 @@ define([],function () {
             allow_tracking:allow_tracking
         });
     };
-    domain_switcher.prototype.get_consumed = function(browsed){
+    domain_switcher.prototype.get_consumed = function(currently_browsed){
         if( this.forced ){
             return this.forced;
         }
-        browsed = !browsed?window.location.hostname:browsed;
+        currently_browsed = !currently_browsed?window.location.host:currently_browsed;
         for(var n in this.items ){
             var b = this.items[n];
             if(b.browsed.indexOf){ // is it a string ?
-                if(b.browsed == browsed ){
+                if(b.browsed == currently_browsed ){
                     return b;
                 }
             }else{  // then it is a function handler
-                if( b.browsed(browsed) ){
+                if( b.browsed(currently_browsed) ){
                     return b;
                 }
             }
