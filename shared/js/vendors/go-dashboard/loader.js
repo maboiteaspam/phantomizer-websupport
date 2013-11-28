@@ -1,3 +1,5 @@
+"use strict";
+
 define(["vendors/utils/url_util","vendors/go-dashboard/dashboard-ui"], function(url_util,$){
     url_util = new url_util();
 
