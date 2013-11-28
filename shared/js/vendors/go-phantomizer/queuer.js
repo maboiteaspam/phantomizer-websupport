@@ -1,3 +1,5 @@
+"use strict";
+
 define([],function () {
     var queuer = function(is_building){
         this.is_built = window.is_built;
