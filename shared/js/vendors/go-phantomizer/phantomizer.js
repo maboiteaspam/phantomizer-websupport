@@ -1,3 +1,5 @@
+"use strict";
+
 // deferrer helps you to emulate a jQuery.Deferrer object
 define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendors/utils/dfrer"],function (queuer, template, dfrer) {
     var phantomizer = function(){
