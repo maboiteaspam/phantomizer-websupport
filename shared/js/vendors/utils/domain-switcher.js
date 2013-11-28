@@ -1,3 +1,5 @@
+"use strict";
+
 define([],function () {
     /**
      * This script is responsible to provide the correct domain name to use
@@ -8,12 +10,11 @@ define([],function () {
         this.items = [];
         this.forced = false;
     };
-    domain_switcher.prototype.reference = function(browsed, consumed,allow_ssl,allow_tracking){
+    domain_switcher.prototype.reference = function(browsed, consumed,options){
         this.items.push({
             browsed:browsed,
             consumed:consumed,
-            allow_ssl:allow_ssl,
-            allow_tracking:allow_tracking
+            options:options
         });
     };
     domain_switcher.prototype.get_consumed = function(currently_browsed){
@@ -33,6 +34,7 @@ define([],function () {
                 }
             }
         }
+        console.log("ds : not found "+currently_browsed);
     };
     domain_switcher.prototype.get = function(url){
         var domain = this.get_consumed();
@@ -40,10 +42,10 @@ define([],function () {
     };
     domain_switcher.prototype.getSsl = function(url){
         var domain = this.get_consumed();
-        return "http"+(domain.allow_ssl?"s":"")+"://"+domain.consumed+url;
+        return "http"+(domain.options.ssl?"s":"")+"://"+domain.consumed+url;
     };
-    domain_switcher.prototype.trackingAllowed = function(){
-        return this.get_consumed().allow_tracking==true;
+    domain_switcher.prototype.options = function(){
+        return this.get_consumed().options;
     };
     domain_switcher.prototype.force = function(consumed){
         this.forced = consumed;
