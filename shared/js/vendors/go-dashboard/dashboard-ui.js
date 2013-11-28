@@ -1,4 +1,9 @@
-define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min"], function(Dashboard, qrcode) {
+"use strict";
+
+define([
+    "vendors/go-dashboard/dashboard",
+    "vendors/go-jquery/jquery.qrcode.min"
+], function(Dashboard, qrcode) {
 
     $.fn.dashboard = function (options) {
         var el = $(this).find(".dashboard");
@@ -44,6 +49,7 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
 
                         var clean_html = function(_content){
                             var re = /<script([^>]*)>([\S\s]*?)<\/script>/gim
+                            var myArray;
                             while ((myArray = re.exec(_content)) != null) {
                                 _content = _content.replace(myArray[0], "")
                             }
@@ -59,7 +65,7 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
                             }
                             return _content;
                         }
-                        function get_specs(loc, fn_found) {
+                        var get_specs = function (loc, fn_found) {
                             $.get(loc, function (content) {
                                 var _h_doc = $("<div></div>");
                                 _h_doc.hide().appendTo("body");
@@ -312,7 +318,7 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
                 //var myPropertyReport = JSLINT.properties_report(JSLINT.property);
 
                 var messages = new Array();
-                for (i = 0, len = myReport.length; i < len; i++) {
+                for (var i = 0, len = myReport.length; i < len; i++) {
                     var m = myReport[i];
                     if (m != null) {
                         messages.push({
@@ -341,7 +347,7 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
                 //var myPropertyReport = JSLINT.properties_report(JSLINT.property);
 
                 var messages = new Array();
-                for (i = 0, len = myReport.length; i < len; i++) {
+                for (var i = 0, len = myReport.length; i < len; i++) {
                     var m = myReport[i];
                     if (m != null) {
                         messages.push({
@@ -368,7 +374,7 @@ define(["vendors/go-dashboard/dashboard","vendors/go-dashboard/jquery.qrcode.min
             var results = CSSLint.verify(css_content);
             var messages = new Array();
 
-            for (i = 0, len = results.messages.length; i < len; i++) {
+            for (var i = 0, len = results.messages.length; i < len; i++) {
                 var m = results.messages[i];
                 messages.push({
                     "message": m.message + " (line " + m.line + ", col " + m.col + ")",
