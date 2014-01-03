@@ -37,7 +37,7 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
                 location = url_util.more_param(location,"no_dashboard=true")
                 $("<link rel='stylesheet' type='text/css' href='/js/vendors/go-device-preview/device-preview.css' />")
                     .appendTo(top_node);
-                $("<div class='device-preview-wrap'><iframe class='device-screen' src='"+location+"'></iframe></div>")
+                $("<div class='device-preview-wrap'><iframe class='device-screen' src='"+location+"'></iframe><div class='device-keyboard'></div></div>")
                     .appendTo(top_node);
             }
         }
@@ -87,7 +87,14 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
                 $(oDoc).ready(function() {
                     var html = $(oDoc).find("html");
                     var sc = $('.device-screen');
-                    var debounced = debounce(function(){
+                    if( html.height()>0 ){
+                        if (html.height() > sc.height() ) {
+                            sc.addClass("scrollable");
+                        }else{
+                            sc.removeClass("scrollable")
+                        }
+                    }
+                    window.setInterval(function(){
                         if( html.height()>0 ){
                             if (html.height() > sc.height() ) {
                                 sc.addClass("scrollable");
@@ -95,12 +102,21 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
                                 sc.removeClass("scrollable")
                             }
                         }
-                    },200);
-                    window.setInterval(debounced,250);
+                    },2000);
+
+                    $(oDoc)
+                    .on("click",function(ev){
+                        if( $(ev.target).is("input") ){
+                            that.EnableKeyboard();
+                        }else{
+                            that.DisableKeyboard();
+                        }
+                    })
                 });
             })
         }
         that.DisableDevice = function(){
+            that.DisableKeyboard();
             $('.device-screen').css("overflow-y", "");
             $('.device-screen').css( "width", "" );
             $('.device-screen').data("w", null);
@@ -110,6 +126,15 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
             $("html").addClass("device-disabled");
             if( that.device == "" ) return ;
             that.device = "";
+        }
+        that.EnableKeyboard = function(){
+            $(".device").addClass("keyboard");
+        }
+        that.DisableKeyboard = function(){
+            $(".device").addClass("keyboard-hide").removeClass("keyboard");
+            window.setTimeout(function(){
+                $(".device").removeClass("keyboard-hide");
+            },2000)
         }
 
         function merge(arr,arr1){
