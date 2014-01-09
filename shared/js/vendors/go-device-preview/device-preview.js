@@ -116,9 +116,13 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
                     invl = window.setInterval(apply_scrollable,2000);
 
                     var keyboard_enabled = debounce(function(ev){
-                        if( $(ev.target).is("input") ||
-                            $(ev.target).is("textarea") ||
-                            $(ev.target).is("select") ){
+                        if( ($(ev.target).is("input")
+                            // || $(ev.target).is("select")
+                            || $(ev.target).is("textarea") )
+                            &&
+                            ( !$(ev.target).is("input[type='radio']")
+                            && !$(ev.target).is("input[type='checkbox']"))
+                            ){
                             that.EnableKeyboard();
                             $(ev.target).one("blur",function(){
                                 that.DisableKeyboard();
