@@ -87,7 +87,8 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
             $(".device-decoration").show();
 
             var invl = null;
-            $('.device-screen').on("load",function(){
+            $('.device-screen').unbind("load.device");
+            $('.device-screen').on("load.device",function(){
                 window.clearInterval(invl);
                 var oDoc = that.getEmbeddedDoc();
                 var init_view_port = debounce(function(){
@@ -115,7 +116,6 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
                     invl = window.setInterval(apply_scrollable,2000);
 
                     var keyboard_enabled = debounce(function(ev){
-                        console.log(ev.target)
                         if( $(ev.target).is("input") ||
                             $(ev.target).is("textarea") ||
                             $(ev.target).is("select") ){
@@ -127,8 +127,8 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
                             that.DisableKeyboard();
                         }
                     },10);
-                    $(oDoc).unbind("click.oDoc");
-                    $(oDoc).on("click.oDoc", "input,textarea,select", keyboard_enabled)
+                    $(oDoc).unbind("click.device");
+                    $(oDoc).on("click.device", "input,textarea,select", keyboard_enabled)
                 },10);
                 $(oDoc).ready(init_view_port);
             })
