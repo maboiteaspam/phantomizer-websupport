@@ -43,6 +43,12 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
         }
         that.unwrap_nodes = function(top_node){
         }
+        that.getEmbeddedDoc = function(){
+            var oDoc = $(".device-screen").get(0);
+            oDoc = (oDoc.contentWindow || oDoc.contentDocument);
+            if (oDoc.document) oDoc = oDoc.document;
+            return oDoc;
+        }
         that.DoFlip = function(){
             $('.device-screen').css("overflow-y", "");
             $('.device-screen').css( "width", "" );
@@ -80,39 +86,51 @@ define(["vendors/utils/url_util","vendors/go-underscore/debounce"], function(url
 
             $(".device-decoration").show();
 
+            var invl = null;
             $('.device-screen').on("load",function(){
-                var oDoc = $(".device-screen").get(0);
-                oDoc = (oDoc.contentWindow || oDoc.contentDocument);
-                if (oDoc.document) oDoc = oDoc.document;
-                $(oDoc).ready(function() {
+                window.clearInterval(invl);
+                var oDoc = that.getEmbeddedDoc();
+                var init_view_port = debounce(function(){
                     var html = $(oDoc).find("html");
                     var sc = $('.device-screen');
-                    if( html.height()>0 ){
-                        if (html.height() > sc.height() ) {
-                            sc.addClass("scrollable");
-                        }else{
-                            sc.removeClass("scrollable")
-                        }
-                    }
-                    window.setInterval(function(){
+
+                    var apply_scrollable = function(){
                         if( html.height()>0 ){
                             if (html.height() > sc.height() ) {
                                 sc.addClass("scrollable");
-                            }else{
-                                sc.removeClass("scrollable")
+                            }else if( sc.hasClass("scrollable") ){
+                                sc.addClass("scrollable_out").removeClass("scrollable");
+                                window.setTimeout(function(){
+                                    sc.removeClass("scrollable_out")
+                                },210);
                             }
+                            window.setTimeout(function(){
+                                if( $(oDoc).width()>0 ){
+                                    $(".device-keyboard").width( $(oDoc).width() );
+                                }
+                            },2010);
                         }
-                    },2000);
+                    };
+                    apply_scrollable();
+                    invl = window.setInterval(apply_scrollable,2000);
 
-                    $(oDoc)
-                    .on("click",function(ev){
-                        if( $(ev.target).is("input") ){
+                    var keyboard_enabled = debounce(function(ev){
+                        console.log(ev.target)
+                        if( $(ev.target).is("input") ||
+                            $(ev.target).is("textarea") ||
+                            $(ev.target).is("select") ){
                             that.EnableKeyboard();
+                            $(ev.target).one("blur",function(){
+                                that.DisableKeyboard();
+                            })
                         }else{
                             that.DisableKeyboard();
                         }
-                    })
-                });
+                    },10);
+                    $(oDoc).unbind("click.oDoc");
+                    $(oDoc).on("click.oDoc", "input,textarea,select", keyboard_enabled)
+                },10);
+                $(oDoc).ready(init_view_port);
             })
         }
         that.DisableDevice = function(){
