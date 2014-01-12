@@ -5,10 +5,10 @@ define(["vendors/go-device-preview/device-preview",
     "vendors/utils/url_util"
 ], function(DevicePreviewFacade,
             mockajax,
-            url_util) {
+            url_util_factory) {
     return function Dashboard() {
         var that = this;
-        url_util = new url_util();
+        var url_util = new url_util_factory();
 
         var current_location = window.location;
         var loc = location.pathname;
