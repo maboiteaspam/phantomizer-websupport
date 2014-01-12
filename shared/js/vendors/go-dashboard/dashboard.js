@@ -1,6 +1,11 @@
 "use strict";
 
-define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax","vendors/utils/url_util"], function(DevicePreviewFacade, mockajax,url_util) {
+define(["vendors/go-device-preview/device-preview",
+    "vendors/utils/mockajax",
+    "vendors/utils/url_util"
+], function(DevicePreviewFacade,
+            mockajax,
+            url_util) {
     return function Dashboard() {
         var that = this;
         url_util = new url_util();
@@ -84,7 +89,10 @@ define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax","ven
                 that.contentScript("                Input your code here");
             } else {
                 that.contentScript("                Please wait...");
-                $.get_raw_script_content(newValue[0]).done(function (content) {
+                $.ajax({
+                    url: newValue[0],
+                    dataType: "text"
+                }).done(function (content) {
                     that.contentScript(content);
                 });
             }
@@ -94,7 +102,10 @@ define(["vendors/go-device-preview/device-preview","vendors/utils/mockajax","ven
                 that.contentStyle("                Input your code here");
             } else {
                 that.contentStyle("                Please wait...");
-                $.get_raw_script_content(newValue[0]).done(function (content) {
+                $.ajax({
+                    url: newValue[0],
+                    dataType: "text"
+                }).done(function (content) {
                     that.contentStyle(content);
                 });
             }
