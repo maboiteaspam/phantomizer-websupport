@@ -41,20 +41,19 @@ define([],function () {
             }
         }else{
             // next_ will call the next handler in the queue
+            var that = this;
             var item = this.items.shift();
-            var next_ = (function(ph){
-                return function(){
-                    return ph.run();
-                }
-            })(this);
+            var next = function(){
+                return that.run();
+            };
             if( item.type == 'static' ){
                 this.is_built ? // if, already build
-                    next_() : // then, just pass without executing handler
-                    item.handler(next_); // otherwise, execute handler, pass it next to manage next iteration occurrence
+                    next() : // then, just pass without executing handler
+                    item.handler(next); // otherwise, execute handler, pass it next to manage next iteration occurrence
             }else if( !this.is_building ){ // are we currently building ?
-                item.handler(next_); // if not, then execute handler
+                item.handler(next); // if not, then execute handler
             }else{ // otherwise, we are building, do not render dynamic handler, just pass
-                next_();
+                next();
             }
         }
     }
