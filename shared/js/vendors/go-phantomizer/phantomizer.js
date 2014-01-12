@@ -26,19 +26,21 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
     }
     phantomizer.prototype.render = function(main_fn){
         var that = this;
+
         add_to_queuer(that.queuer, that.before_render);
 // During the build, the static template are loaded and built in
         that.queuer.render_static(function(next){
             that.template.render_build(next);
         });
         add_to_queuer(that.queuer, that.after_static_render);
+
 // during client side rendeering, render JIT template items
         that.queuer.render(function(next){
             that.template.render_client(next);
         });
         that.queuer.render(main_fn);
-
         add_to_queuer(that.queuer, that.after_client_render);
+
 // inject template scripts
         that.queuer.render(function(next){
             that.template.inject_scripts();
@@ -46,8 +48,14 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
         });
         add_to_queuer(that.queuer, that.after_render);
 
+        // for(var n in that.queuer.items) console.log(that.queuer.items[n].handler);
+
         that.queuer.run();
     };
+    phantomizer.prototype.beforeRender = function(fn,render){
+        render= render?render:"render";
+        this.before_render.push({fn:fn,render:render});
+    }
     phantomizer.prototype.afterStaticRender = function(fn,render){
         render= render?render:"static";
         this.after_static_render.push({fn:fn,render:render});
@@ -59,10 +67,6 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
     phantomizer.prototype.afterRender = function(fn,render){
         render= render?render:"render";
         this.after_render.push({fn:fn,render:render});
-    }
-    phantomizer.prototype.beforeRender = function(fn,render){
-        render= render?render:"render";
-        this.before_render.push({fn:fn,render:render});
     }
     phantomizer.prototype.when = function(){
         var dfd = new dfrer();
