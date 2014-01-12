@@ -2,10 +2,15 @@
 
 define(["vendors/go-device-preview/device-preview",
     "vendors/utils/mockajax",
-    "vendors/utils/url_util"
+    "vendors/utils/url_util",
+    "vendors/go-knockout/knockout-3.0.0.min"
 ], function(DevicePreviewFacade,
             mockajax,
-            url_util_factory) {
+            url_util_factory,
+            ko_) {
+
+    var ko = ko_ || window.ko;
+
     return function Dashboard() {
         var that = this;
         var url_util = new url_util_factory();

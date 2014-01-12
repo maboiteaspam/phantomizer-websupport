@@ -2,8 +2,14 @@
 
 define([
     "vendors/go-dashboard/dashboard",
-    "vendors/go-jquery/jquery.qrcode.min"
-], function(Dashboard, qrcode) {
+    "vendors/go-jquery/jquery.qrcode.min",
+    "vendors/go-knockout/knockout-3.0.0.min"
+], function(
+    Dashboard,
+    qrcode,
+    ko_) {
+
+    var ko = ko_ || window.ko;
 
     $.fn.dashboard = function (options) {
         var el = $(this).find(".dashboard");
