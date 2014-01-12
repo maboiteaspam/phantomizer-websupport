@@ -49,12 +49,13 @@ define(["vendors/utils/mockajax",
                 var d = that.tests.length;
                 var iter = function(){
                     n++;
-                    if( that.tests[n] != null ){
+                    if(n==d){
+                        if( next ){
+                            next(true);
+                        }
+                    }else if( that.tests[n] != null ){
 // this where test load stubs
                         that.tests[n].init(iter);
-                    }
-                    if(n==d){
-                        if( next ) next(true);
                     }
                 }
                 iter();
