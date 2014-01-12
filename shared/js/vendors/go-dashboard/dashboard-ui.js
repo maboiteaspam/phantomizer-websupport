@@ -130,7 +130,10 @@ define([
             $(el).find(".dashboard-scene .jslint_btn_report").click(function () {
                 var src = DashboardViewModel.chosenScript()[0];
                 if (src.match(/\.js/)) {
-                    $.get_raw_script_content(src).done(function (content) {
+                    $.ajax({
+                        url: src,
+                        dataType: "text"
+                    }).done(function (content) {
                         create_jslint_report(el, content).done(function (messages) {
                             var view = $(el).dashboard_add_view("JsLint Report");
                             var id = $(view).attr("id");
@@ -159,7 +162,10 @@ define([
             $(el).find(".dashboard-scene .jshint_btn_report").click(function () {
                 var src = DashboardViewModel.chosenScript()[0];
                 if (src.match(/\.js/)) {
-                    $.get_raw_script_content(src).done(function (content) {
+                    $.ajax({
+                        url: src,
+                        dataType: "text"
+                    }).done(function (content) {
                         create_jshint_report(el, content, function (messages) {
                             var view = $(el).dashboard_add_view("JsHint Report");
                             var id = $(view).attr("id");
@@ -272,7 +278,8 @@ define([
         if ($("body").find("script[src='" + lib_src + "']").length == 0) {
             $("<script type='text/javascript' src='" + lib_src + "'></script>").appendTo(el);
         }
-        return $._delay(function (dfd) {
+        var dfd = jQuery.Deferred();
+        window.setTimeout(function(){
             /*
              //     anon       true, if the space may be omitted in anonymous function declarations
              //     bitwise    true, if bitwise operators should be allowed
@@ -334,7 +341,8 @@ define([
             } else {
                 dfd.resolve([]);
             }
-        });
+        },10)
+        return dfd;
     };
     var create_jshint_report = function(el, script_content, callback){
         require(["vendors/go-jshint/jshint-1.1.0"], function(  ){
@@ -369,8 +377,8 @@ define([
         if ($("body").find("script[src='" + lib_src + "']").length == 0) {
             $("<script type='text/javascript' src='" + lib_src + "'></script>").appendTo(el);
         }
-        return $._delay(function (dfd) {
-
+        var dfd = jQuery.Deferred();
+        window.setTimeout(function(){
             var results = CSSLint.verify(css_content);
             var messages = new Array();
 
@@ -383,7 +391,8 @@ define([
             }
 
             dfd.resolve(messages);
-        });
+        },10)
+        return dfd;
     };
 
     return $
