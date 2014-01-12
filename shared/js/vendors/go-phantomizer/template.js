@@ -129,16 +129,16 @@ define([],function () {
     template.prototype.length = 0;
     template.prototype.cur_length = 0;
     template.prototype.render_build = function(cb){
-        var directives = $("[class^='include']").not("[target='client']");
+        var directives = $("[class='include']").not("[target='client']");
         if( directives.length == 0 ){
-            cb();
+            if( cb ) cb();
         }else{
             this.length += directives.length;
             var that = this;
             directives.removeAttr("target");
             load_directives(directives,function(scripts){
                 for(var n in scripts ) that.scripts.push(scripts[n])
-                that. cur_length++;
+                that.cur_length++;
                 if( that.cur_length == that.length ){
                     that.render_build(cb);
                 }
@@ -146,9 +146,9 @@ define([],function () {
         }
     };
     template.prototype.render_client = function(cb){
-        var directives = $("[class^='include']").not("[target='build']");
+        var directives = $("[class='include']").not("[target='build']");
         if( directives.length == 0 ){
-            cb();
+            if( cb ) cb();
         }else{
             this.length += directives.length;
             var that = this;
