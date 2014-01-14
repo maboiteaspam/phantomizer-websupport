@@ -104,7 +104,6 @@ define([],function () {
             $(v).removeAttr("src");
             $(v).removeClass("include");
             var attrs = get_attributes($(v).get(0))
-            $(v).addClass("included");
             if( !src ){
                 cb([]);
             }else{
@@ -129,7 +128,7 @@ define([],function () {
     template.prototype.length = 0;
     template.prototype.cur_length = 0;
     template.prototype.render_build = function(cb){
-        var directives = $("[class='include']").not("[target='client']");
+        var directives = $("[class*='include']").not("[target='client']"); /* target any class containing include */
         if( directives.length == 0 ){
             if( cb ) cb();
         }else{
@@ -146,7 +145,7 @@ define([],function () {
         }
     };
     template.prototype.render_client = function(cb){
-        var directives = $("[class='include']").not("[target='build']");
+        var directives = $("[class*='include']").not("[target='build']"); /* target any class containing include */
         if( directives.length == 0 ){
             if( cb ) cb();
         }else{
