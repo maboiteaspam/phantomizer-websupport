@@ -77,7 +77,7 @@ define(["vendors/go-device-preview/device-preview",
         that.goPreviewNoDashBoard = function () {
             if(no_dashboard_enabled){
                 that.previewNoDashboard(true);
-                window.location.href = that.previewNowUrl();
+                window.location.href = that.previewNowUrl()+window.location.hash;
             }
         }
         that.previewNoDashboard.subscribe(function (newValue) {
