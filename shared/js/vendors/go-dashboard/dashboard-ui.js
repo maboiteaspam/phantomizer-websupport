@@ -121,10 +121,7 @@ define([
             });
 
             // catch inject holmes
-            $(el).find(".dashboard-scene .holmes_inject").click(function () {
-                inject_holmes();
-                return false;
-            });
+            $(el).find(".dashboard-scene .holmes_inject").click(inject_holmes);
 
             // catch cache clean
             $(el).find(".dashboard-scene #cache_clean").click(function () {
