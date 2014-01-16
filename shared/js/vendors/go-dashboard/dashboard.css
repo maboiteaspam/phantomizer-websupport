@@ -35,7 +35,14 @@
     margin-right:4px;
 }
 .dashboard ul li a{
-    font-size: 1em;
+    font-size: 1.5em;
+    margin-right: 10px;
+}
+.dashboard-closed ul li a{
+    font-size: 1.2em;
+}
+.dashboard ul li.dashboard-activetab a{
+    color: gray;
 }
 .dashboard .close{
     position: absolute;
@@ -52,6 +59,8 @@
     left: auto;
     top: auto;
     background-color:white;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 .dashboard-closed .half-opac-bg{
     display:none;
@@ -59,7 +68,7 @@
 .dashboard-closed .dashboard-scene{
     width: auto;
     left: auto;
-    margin-left: 0px;
+    margin-left: 10px;
     padding: 0px;
     top: auto;
 }
@@ -94,19 +103,21 @@
 }
 .dashboard .dashboard-view{
     display: none;
+    margin-top: 20px;
+    font-size: 1.3em;
+}
+.dashboard .dashboard-view *{
+    font-size: 1.3em;
 }
 .dashboard .dashboard-activeview{
     display: block;
 }
 .dashboard .dashboard-view h1{
-    font-size: 1.2em;
+    font-size: 1.4em;
 }
 .dashboard .dashboard-view h2{
-    font-size: 1.2em;
-    margin-bottom: 0px;
-}
-.dashboard .dashboard-view .subtitle{
-    font-size: 1em;
+    font-size: 1.4em;
+    margin-bottom: 5px;
 }
 .dashboard .dashboard-view textarea{
     width: 95%;

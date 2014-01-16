@@ -233,13 +233,16 @@ define([
     };
     $.fn.dashboard_close = function () {
         var el = this;
+        $(el).find("ul li").removeClass("dashboard-activetab");
         $(el).find(".dashboard-activeview").removeClass("dashboard-activeview");
         $(el).addClass("dashboard-closed");
     };
     $.fn.dashboard_open = function (index) {
         var el = this;
         $(el).find(".dashboard-activeview").removeClass("dashboard-activeview");
+        $(el).find("ul li").removeClass("dashboard-activetab");
         $($(el).find(".dashboard-view").get(index)).addClass("dashboard-activeview");
+        $(el).find("ul li:eq("+index+")").addClass("dashboard-activetab");
         $(el).removeClass("dashboard-closed");
     };
     $.fn.dashboard_add_view = function (title) {
