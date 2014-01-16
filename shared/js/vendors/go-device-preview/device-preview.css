@@ -79,6 +79,7 @@ html.device-enabled .device-keyboard{
     visibility: hidden;
     background-color: gray;
     opacity: 0.9;
+    text-align: center;
 }
 html.device-enabled .device.portrait .device-keyboard{
     bottom: 100px;
@@ -88,7 +89,7 @@ html.device-enabled .device.landscape .device-keyboard{
     bottom: 30px;
     left: 124px;
 }
-html.device-enabled .keyboard-hide  .device-keyboard{
+html.device-enabled .keyboard-hide .device-keyboard{
     height:0px !important;
     visibility: visible;
     transition-property: height;
@@ -99,6 +100,31 @@ html.device-enabled .keyboard-hide  .device-keyboard{
     -moz-transition-duration: 1.5s;
     -o-transition-property: height;
     -o-transition-duration: 1.5s;
+}
+html.device-enabled .device-keyboard span{
+    color: white;
+    font-size: 2em;
+    line-height: 50px;
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 1s;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 1s;
+    -moz-transition-property: opacity;
+    -moz-transition-duration: 1s;
+    -o-transition-property: opacity;
+    -o-transition-duration: 1s;
+}
+html.device-enabled .keyboard-hide .device-keyboard span{
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 1s;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 1s;
+    -moz-transition-property: opacity;
+    -moz-transition-duration: 1s;
+    -o-transition-property: opacity;
+    -o-transition-duration: 1s;
 }
 html.device-enabled .device.portrait.keyboard .device-keyboard{
     height:250px !important;
