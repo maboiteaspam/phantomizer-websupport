@@ -42,60 +42,69 @@ define([],function () {
 
         return scripts;
     }
-    function get_src(el){
-        var src = "";
-        if( $(el).attr("src") ){
-            src = $(el).attr("src");
-        }else{
-            var found = false;
-            $(el).find("div[src]").each(function(k,v){
-                found = $(v);
-                if( $(v).attr("since") ){
-                    var since = $(v).attr("since");
 
-                    if( since.match("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}$") ){
-                        since += ":00";
-                    }else if( since.match("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}$") ){
-                        since += ":00:00";
-                    }else if( since.match("^[0-9]{4}-[0-9]{2}-[0-9]{2}$") ){
-                        since += " 00:00:00";
-                    }
-                    since = since.split(" ")
-                    since = since[0]+"T"+since[1]+"Z";
-                    var p_since = new Date(since);
-                    if( ! p_since ){
-                        throw "wrong date parsed "+since;
-                    }
-                    if( p_since.getTime() >= now.getTime()){
-                        found = null;
-                    }
-                }
-                if( $(v).attr("until") && true ){
-                    var until = $(v).attr("until");
+    function get_since(el){
+        var ret_date = false;
+        if( $(el).attr("since") ){
+            var since = $(el).attr("since");
 
-                    if( until.match("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}$") ){
-                        until += ":59";
-                    }else if( until.match("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}$") ){
-                        until += ":59:59";
-                    }else if( until.match("^[0-9]{4}-[0-9]{2}-[0-9]{2}$") ){
-                        until += " 23:59:59";
-                    }
-                    until = until.split(" ")
-                    until = until[0]+"T"+until[1]+"Z";
-                    var p_until = new Date(until);
-                    if( ! p_until ){
-                        throw "wrong date parsed "+until;
-                    }
-                    if( p_until.getTime() <= now.getTime()){
-                        found = null;
-                    }
-                }
-            });
-
-            if( found ){
-                src = $(found).attr("src");
+            if( since.match("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}$") ){
+                since += ":00";
+            }else if( since.match("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}$") ){
+                since += ":00:00";
+            }else if( since.match("^[0-9]{4}-[0-9]{2}-[0-9]{2}$") ){
+                since += " 00:00:00";
+            }
+            since = since.split(" ")
+            since = since[0]+" "+since[1]+"";
+            var p_since = new Date(since);
+            if( ! p_since ){
+                throw "wrong date parsed "+since;
+            }else{
+                ret_date = p_since;
             }
         }
+        return ret_date;
+    }
+
+    function get_until(el){
+        var ret_date = false;
+        if( $(el).attr("until") ){
+            var until = $(el).attr("until");
+
+            if( until.match("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}$") ){
+                until += ":59";
+            }else if( until.match("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}$") ){
+                until += ":59:59";
+            }else if( until.match("^[0-9]{4}-[0-9]{2}-[0-9]{2}$") ){
+                until += " 23:59:59";
+            }
+            until = until.split(" ")
+            until = until[0]+" "+until[1]+"";
+            var p_until = new Date(until);
+            if( ! p_until ){
+                throw "wrong date parsed "+until;
+            }else{
+                ret_date = p_until;
+            }
+        }
+        return ret_date;
+    }
+
+    function get_src(el){
+        var src = $(el).attr("src") || "";
+
+        var since = get_since(el);
+        var until = get_until(el);
+
+        if( since !== false && since.getTime() >= now.getTime() ){
+            src = "";
+        }
+
+        if( until !== false && until.getTime() < now.getTime() ){
+            src = "";
+        }
+
         return src;
     }
     function load_directives(directives, cb){
