@@ -110,12 +110,15 @@ define([
                 }
             });
 
+            if( ! $(".half-opac-bg").length ){
+                $("<div class='half-opac-bg'></div>").appendTo("body");
+            }
             // catch click close button
             $(el).find(".dashboard-scene>.close").click(function () {
                 $(el).dashboard_close();
                 return false;
             });
-            $(el).find(".half-opac-bg").click(function () {
+            $(".half-opac-bg").click(function () {
                 $(el).dashboard_close();
                 return false;
             });
@@ -236,14 +239,27 @@ define([
         $(el).find("ul li").removeClass("dashboard-activetab");
         $(el).find(".dashboard-activeview").removeClass("dashboard-activeview");
         $(el).addClass("dashboard-closed");
+        $("#stryke-db").css("bottom","40px");
+        $("#stryke-db").css("left", "auto");
+        $("#stryke-db").css("top", "auto");
+        $(".half-opac-bg").css("display","none");
+        $(".dashboard").css("top","auto");
+        $(".dashboard").css("left","auto");
     };
     $.fn.dashboard_open = function (index) {
         var el = this;
+        $("#stryke-db").css("bottom", "auto");
+        $("#stryke-db").css("left", "50%");
+        $("#stryke-db").css("top", "50%");
+        $(".half-opac-bg").css("display","block");
         $(el).find(".dashboard-activeview").removeClass("dashboard-activeview");
         $(el).find("ul li").removeClass("dashboard-activetab");
         $($(el).find(".dashboard-view").get(index)).addClass("dashboard-activeview");
-        $(el).find("ul li:eq("+index+")").addClass("dashboard-activetab");
+        $($(el).find("ul li").get(index)).addClass("dashboard-activetab");
         $(el).removeClass("dashboard-closed");
+
+        $(".dashboard").css("top","-"+parseInt($(".dashboard").height()/2)+"px");
+        $(".dashboard").css("left","-"+parseInt($(".dashboard").width()/2)+"px");
     };
     $.fn.dashboard_add_view = function (title) {
         var el = this;
