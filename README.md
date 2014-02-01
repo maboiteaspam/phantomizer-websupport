@@ -76,6 +76,8 @@ http://maboiteaspam.github.io/phantomizer-websupport/
 
 http://maboiteaspam.github.io/phantomizer-websupport/documentation/build.html
 
+http://maboiteaspam.github.io/phantomizer-websupport/documentation/websupport.html
+
 
 
 
