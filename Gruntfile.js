@@ -6,7 +6,8 @@ module.exports = function(grunt) {
         docco: {
             debug: {
                 src: [
-                    'tasks/build.js'
+                    'tasks/build.js',
+                    'lib/websupport.js'
                 ],
                 options: {
                     layout:'linear',
