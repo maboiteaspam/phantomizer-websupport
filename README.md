@@ -70,6 +70,13 @@ require([
 ```
 
 
+# Documentation Index
+
+http://maboiteaspam.github.io/phantomizer-websupport/
+
+http://maboiteaspam.github.io/phantomizer-websupport/documentation/build.html
+
+
 
 
 # Embedded, thanks to all of them
