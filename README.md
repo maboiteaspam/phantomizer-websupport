@@ -88,7 +88,6 @@ http://maboiteaspam.github.io/phantomizer-websupport/documentation/websupport.ht
     knockout
     almond
     require
-    jshint
     csslint
     modernizer
     qunit
