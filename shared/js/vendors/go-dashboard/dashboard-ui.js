@@ -132,30 +132,7 @@ define([
                 return false;
             });
 
-            // catch report csslint
-            $(el).find(".dashboard-scene .csslint_report").click(function () {
-                var src = DashboardViewModel.chosenStyle()[0];
-                if (src.match(/\.css/)) {
-                    $.get(src).done(function (content) {
-                        create_csslint_report(el, content).done(function (messages) {
-                            var view = $(el).dashboard_add_view("CssLint Report");
-                            var id = $(view).attr("id");
-                            $(view).html('<h2>Report about <span data-bind="text: ' + id + '.src"></span></h2>' +
-                                '<div>' +
-                                '<div data-bind="foreach: ' + id + '.messages">' +
-                                '<span data-bind="text: message"></span>' +
-                                '<br/>' +
-                                '</div>' +
-                                '</div>');
-                            var report = {src: src, messages: messages};
-                            report[id] = report;
-                            ko.applyBindings(report, $(view)[0]);
-                        });
-                    });
-                }
-                return false;
-            });
-            // catch report csslint
+            // qrcode
             $(el).find(".tab-qrcode").click(function () {
                 $('#qrcode').children().remove();
                 $('#qrcode').qrcode({
@@ -230,29 +207,6 @@ define([
             //$(this).html("Recall Sherlock");
         }
         return false;
-    };
-    var create_csslint_report = function (el, css_content) {
-
-        var lib_src = "/js/vendors/go-csslint/csslint.js";
-        if ($("body").find("script[src='" + lib_src + "']").length == 0) {
-            $("<script type='text/javascript' src='" + lib_src + "'></script>").appendTo(el);
-        }
-        var dfd = jQuery.Deferred();
-        window.setTimeout(function(){
-            var results = CSSLint.verify(css_content);
-            var messages = new Array();
-
-            for (var i = 0, len = results.messages.length; i < len; i++) {
-                var m = results.messages[i];
-                messages.push({
-                    "message": m.message + " (line " + m.line + ", col " + m.col + ")",
-                    "level": m.type
-                });
-            }
-
-            dfd.resolve(messages);
-        },10)
-        return dfd;
     };
 
     return $
