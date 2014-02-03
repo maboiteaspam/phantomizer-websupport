@@ -8,16 +8,16 @@ define([],function () {
     queuer.prototype.is_built = null;
     queuer.prototype.is_building = null;
 //  list handlers to execute
-    queuer.prototype.items = []
+    queuer.prototype.items = [];
 // queue an handler, to be rendered statically during the build
     queuer.prototype.render_static = function(handler, first){
-        if( first == true ) this.items.unshift({'type':'static','handler':handler})
-        else this.items.push({'type':'static','handler':handler})
+        if( first == true ) this.items.unshift({'type':'static','handler':handler});
+        else this.items.push({'type':'static','handler':handler});
     }
 // queue an handler, to be rendered on client side
     queuer.prototype.render = function(handler, first){
-        if( first == true ) this.items.unshift({'type':'dynamic','handler':handler})
-        else this.items.push({'type':'dynamic','handler':handler})
+        if( first == true ) this.items.unshift({'type':'dynamic','handler':handler});
+        else this.items.push({'type':'dynamic','handler':handler});
     }
 // run all handlers and fix the build by adding global variable
     queuer.prototype.run = function(){
@@ -27,15 +27,21 @@ define([],function () {
                 var h = document.getElementsByTagName("html")[0];
                 var c = h.getAttribute("class");
                 c = c?c+" ":"";
-                if( h ) h.setAttribute("class", c+"stryked")
+                if( h ) h.setAttribute("class", c+"stryked");
 
-                var s = document.createElement("script")
-                s.setAttribute("id", "phantom_proof")
+                var s = document.createElement("script");
+                s.setAttribute("id", "phantom_proof");
 
-                var st = "\n"
+                var st = "\n";
                 st += "window.is_built = true;\n";
-                st = st.replace("<"+"/script>", "<\\/script>")
-                s.innerHTML = st
+                st = st.replace("<"+"/script>", "<\\/script>");
+
+                try{
+                    s.innerHTML = st;
+                }catch(e){
+                    // ie6 hack
+                    s.text = st;
+                }
                 var tgt_script = document.getElementsByTagName("script")[0] || document.getElementsByTagName("")[0];
                 tgt_script.parentNode.insertBefore(s,tgt_script);
             }
