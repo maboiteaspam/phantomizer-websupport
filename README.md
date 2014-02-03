@@ -93,6 +93,7 @@ http://maboiteaspam.github.io/phantomizer-websupport/documentation/websupport.ht
     holmes
     jasmine, but deprecated for the moment
     underscore
+    lo_dash
 
 
 # Why ?
