@@ -2,11 +2,24 @@
 
 // let us know if we run a phantomjs instance
 var is_phantom;
+var phantomizer_qunit_bridge = "phantomjs-bridge";
+var phantomizer_qunit_version = "1.12.0";
+
+if( phantomizer_globals ){
+  if( phantomizer_globals.qunit ){
+    if( phantomizer_globals.qunit.bridge ){
+      phantomizer_qunit_bridge = phantomizer_globals.qunit.bridge;
+    }
+    if( phantomizer_globals.qunit.version ){
+      phantomizer_qunit_version = phantomizer_globals.qunit.version;
+    }
+  }
+}
 
 define(["vendors/utils/mockajax",
     "vendors/utils/url_util",
-    'vendors/go-qunit/phantomjs-bridge',
-    'vendors/go-qunit/qunit-1.12.0'],
+    'vendors/go-qunit/'+phantomizer_qunit_bridge, /* it is ok to do that since it don t indend to build it with r.js */
+    'vendors/go-qunit/qunit-'+phantomizer_qunit_version], /* it is ok to do that since it don t indend to build it with r.js */
     function( mockajax, url_util, bridge){
 
     url_util = new url_util();
@@ -34,7 +47,7 @@ define(["vendors/utils/mockajax",
 // iterate the spec files provided in get arguments, load them with require, and initialize them
 // it call next when all tests are done
         if( that.spec_files.length > 0 ){
-            $("head").append("<link rel=\"stylesheet\" href=\"/js/vendors/go-qunit/qunit-1.11.0.css\">");
+            $("head").append("<link rel=\"stylesheet\" href=\"/js/vendors/go-qunit/qunit-"+phantomizer_qunit_version+".css\">");
 
             $("<div id=\"qunit\"></div>").appendTo("body");
             $("<div id=\"qunit-fixture\"></div>").appendTo("body");
