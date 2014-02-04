@@ -20,7 +20,7 @@ define([
       var __has_loaded = false;
       // catch click tab title
       $(el).find(".dashboard-scene>ul").click(function (event) {
-        if ($(event.target).is("a")) {
+        if ( $(event.target).is("a") && $(event.target).attr("href").match(/^#/)){
 
           if (!__has_loaded) {
             var base_dir = window.location.pathname;
