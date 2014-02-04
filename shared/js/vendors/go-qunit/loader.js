@@ -5,13 +5,13 @@ var is_phantom;
 var phantomizer_qunit_bridge = "phantomjs-bridge";
 var phantomizer_qunit_version = "1.12.0";
 
-if( phantomizer_globals ){
-  if( phantomizer_globals.qunit ){
-    if( phantomizer_globals.qunit.bridge ){
-      phantomizer_qunit_bridge = phantomizer_globals.qunit.bridge;
+if( window.phantomizer_globals ){
+  if( window.phantomizer_globals.qunit ){
+    if( window.phantomizer_globals.qunit.bridge ){
+      phantomizer_qunit_bridge = window.phantomizer_globals.qunit.bridge;
     }
-    if( phantomizer_globals.qunit.version ){
-      phantomizer_qunit_version = phantomizer_globals.qunit.version;
+    if( window.phantomizer_globals.qunit.version ){
+      phantomizer_qunit_version = window.phantomizer_globals.qunit.version;
     }
   }
 }
