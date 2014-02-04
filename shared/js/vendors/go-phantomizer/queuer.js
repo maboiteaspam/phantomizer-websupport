@@ -32,8 +32,8 @@ define([],function () {
         var s = document.createElement("script");
         s.setAttribute("id", "phantom_proof");
 
-        var st = "\n";
-        st += "window.is_built = true;\n";
+        var st = "";
+        st += "window.is_built = true;";
         st = st.replace("<"+"/script>", "<\\/script>");
 
         try{
