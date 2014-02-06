@@ -12,7 +12,7 @@ define([],function(){
    * Released under the MIT license.
    * https://jquery.org/license/
    */
-  (function() {
+  var junit_support = (function(QUnit) {
 
     'use strict';
 
@@ -319,12 +319,13 @@ define([],function(){
       });
     };
 
-  })();
+  });
 // junit support
 
 
   return function(){
     var QUnit = window.QUnit;
+    junit_support(QUnit);
 // Send messages to the parent PhantomJS process via alert! Good times!!
     var sendMessage = function() {
       var args = [].slice.call(arguments);
