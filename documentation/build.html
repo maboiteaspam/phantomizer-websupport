@@ -48,36 +48,52 @@
 
 module.exports = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(grunt)</span> {</span>
 
-    <span class="hljs-keyword">var</span> ph_libutil = <span class="hljs-built_in">require</span>(<span class="hljs-string">"phantomizer-libutil"</span>);
-    <span class="hljs-keyword">var</span> phantomizer_helper = ph_libutil.phantomizer_helper;
+  <span class="hljs-keyword">var</span> ProgressBar = <span class="hljs-built_in">require</span>(<span class="hljs-string">"progress"</span>);
+  <span class="hljs-keyword">var</span> ph_libutil = <span class="hljs-built_in">require</span>(<span class="hljs-string">"phantomizer-libutil"</span>);
+  <span class="hljs-keyword">var</span> phantomizer_helper = ph_libutil.phantomizer_helper;
 
-    grunt.registerMultiTask(<span class="hljs-string">"phantomizer-dir-inject-html-extras"</span>, <span class="hljs-string">"Scan a directory and inject extra html into all html / htm files"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+  grunt.registerMultiTask(<span class="hljs-string">"phantomizer-dir-inject-html-extras"</span>,
+    <span class="hljs-string">"Scans a directory and inject extra html into all html / htm files"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
 
-        <span class="hljs-keyword">var</span> options = <span class="hljs-keyword">this</span>.options();
+      <span class="hljs-keyword">var</span> options = <span class="hljs-keyword">this</span>.options();
 
-        <span class="hljs-keyword">var</span> in_dir = options.in_dir;
+      <span class="hljs-keyword">var</span> in_dir = options.in_dir;
 
-        <span class="hljs-keyword">var</span> requirejs_src = options.requirejs.src;
-        <span class="hljs-keyword">var</span> requirejs_baseUrl = options.requirejs.baseUrl;
-        <span class="hljs-keyword">var</span> requirejs_paths = options.requirejs.paths;
+      <span class="hljs-keyword">var</span> requirejs_src = options.requirejs.src;
+      <span class="hljs-keyword">var</span> requirejs_baseUrl = options.requirejs.baseUrl;
+      <span class="hljs-keyword">var</span> requirejs_paths = options.requirejs.paths;
 
-        <span class="hljs-keyword">var</span> files = grunt.file.expand(in_dir+<span class="hljs-string">"**/*.{html,htm}"</span>);
+      <span class="hljs-keyword">var</span> files = grunt.file.expand(in_dir+<span class="hljs-string">"**/*.{html,htm}"</span>);
+      grunt.log.ok(<span class="hljs-string">"Files Count "</span>+files.length);</pre></div>
+        
+      
+        
+        <p>initialize a progress bar</p>
 
-        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> n <span class="hljs-keyword">in</span> files ){
-            <span class="hljs-keyword">var</span> file = files[n];
-            <span class="hljs-keyword">var</span> retour = grunt.file.read(file);
-            retour = inject_extras(retour,requirejs_baseUrl,requirejs_src, requirejs_paths);
-            grunt.file.write(file, retour);
-            grunt.log.ok(<span class="hljs-string">"Extras inject in "</span>+file)
-        }
+        
+          <div class='highlight'><pre>      <span class="hljs-keyword">var</span> bar = <span class="hljs-keyword">new</span> ProgressBar(<span class="hljs-string">' done=[:current/:total] elapsed=[:elapseds] sprint=[:percent] eta=[:etas] [:bar]'</span>, {
+        complete: <span class="hljs-string">'#'</span>
+        , incomplete: <span class="hljs-string">'-'</span>
+        , width: <span class="hljs-number">80</span>
+        , total: files.length
+      });
+
+      <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> n <span class="hljs-keyword">in</span> files ){
+        <span class="hljs-keyword">var</span> file = files[n];
+        <span class="hljs-keyword">var</span> retour = grunt.file.read(file);
+        retour = inject_extras(retour,requirejs_baseUrl,requirejs_src, requirejs_paths);
+        grunt.file.write(file, retour);
+        grunt.verbose.ok(<span class="hljs-string">"Extras inject in "</span>+file);
+        bar.tick();
+      }
     });
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inject_extras</span><span class="hljs-params">(buf,requirejs_baseUrl,requirejs_src, requirejs_paths)</span>{</span>
-        buf = phantomizer_helper.inject_requirejs(requirejs_baseUrl, requirejs_src, requirejs_paths, buf, <span class="hljs-literal">null</span>)
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inject_extras</span><span class="hljs-params">(buf,requirejs_baseUrl,requirejs_src, requirejs_paths)</span>{</span>
+    buf = phantomizer_helper.inject_requirejs(requirejs_baseUrl, requirejs_src, requirejs_paths, buf, <span class="hljs-literal">null</span>)
 
-        <span class="hljs-keyword">var</span> injected = <span class="hljs-string">'/js/vendors/go-phantomizer/extras-loader.js'</span>;
-        buf = phantomizer_helper.inject_after_requirejs(requirejs_baseUrl,requirejs_src, requirejs_paths, buf, injected)
-        <span class="hljs-keyword">return</span> buf;
-    };
+    <span class="hljs-keyword">var</span> injected = <span class="hljs-string">'/js/vendors/go-phantomizer/extras-loader.js'</span>;
+    buf = phantomizer_helper.inject_after_requirejs(requirejs_baseUrl,requirejs_src, requirejs_paths, buf, injected)
+    <span class="hljs-keyword">return</span> buf;
+  };
 };</pre></div>
         
       
