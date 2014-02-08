@@ -2,6 +2,7 @@
 
 module.exports = function(grunt) {
 
+  var ProgressBar = require("progress");
   var ph_libutil = require("phantomizer-libutil");
   var phantomizer_helper = ph_libutil.phantomizer_helper;
 
@@ -17,13 +18,24 @@ module.exports = function(grunt) {
       var requirejs_paths = options.requirejs.paths;
 
       var files = grunt.file.expand(in_dir+"**/*.{html,htm}");
+      grunt.log.ok("Files Count "+files.length);
+
+
+// initialize a progress bar
+      var bar = new ProgressBar(' done=[:current/:total] elapsed=[:elapseds] sprint=[:percent] eta=[:etas] [:bar]', {
+        complete: '#'
+        , incomplete: '-'
+        , width: 80
+        , total: files.length
+      });
 
       for( var n in files ){
         var file = files[n];
         var retour = grunt.file.read(file);
         retour = inject_extras(retour,requirejs_baseUrl,requirejs_src, requirejs_paths);
         grunt.file.write(file, retour);
-        grunt.log.ok("Extras inject in "+file)
+        grunt.verbose.ok("Extras inject in "+file);
+        bar.tick();
       }
     });
   function inject_extras(buf,requirejs_baseUrl,requirejs_src, requirejs_paths){
