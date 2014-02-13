@@ -1,6 +1,6 @@
 {
   "name": "phantomizer-websupport",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "private": true,
   "description": "Client side javascript libraries and utilities for phantomizer application",
   "keywords": "",
