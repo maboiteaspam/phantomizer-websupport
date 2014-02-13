@@ -11,6 +11,22 @@ define([
 
   var ko = ko_ || window.ko;
 
+  var ie = (function(){
+
+    var undef,
+      v = 3,
+      div = document.createElement('div'),
+      all = div.getElementsByTagName('i');
+
+    while (
+      div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+        all[0]
+      );
+
+    return v > 4 ? v : undef;
+
+  }());
+
   $.fn.dashboard = function (options) {
     var el = $(this).find(".dashboard");
     if (!$(el).data("dashboard")) {
@@ -20,7 +36,8 @@ define([
       var __has_loaded = false;
       // catch click tab title
       $(el).find(".dashboard-scene>ul").click(function (event) {
-        if ( $(event.target).is("a") && $(event.target).attr("href").match(/^#/)){
+
+        if ( $(event.target).is("a") && $(event.target).attr("href").match(/#[^#]+$/)){
 
           if (!__has_loaded) {
             var base_dir = window.location.pathname;
@@ -172,8 +189,10 @@ define([
     $($(el).find("ul li").get(index)).addClass("dashboard-activetab");
     $(el).removeClass("dashboard-closed");
 
-    $(".dashboard").css("top","-"+parseInt($(".dashboard").height()/2)+"px");
-    $(".dashboard").css("left","-"+parseInt($(".dashboard").width()/2)+"px");
+    if(!ie){
+      $(".dashboard").css("top","-"+parseInt($(".dashboard").height()/2)+"px");
+      $(".dashboard").css("left","-"+parseInt($(".dashboard").width()/2)+"px");
+    }
   };
   $.fn.dashboard_add_view = function (title) {
     var el = this;
