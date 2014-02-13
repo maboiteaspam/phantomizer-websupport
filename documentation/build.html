@@ -52,6 +52,7 @@ module.exports = <span class="hljs-function"><span class="hljs-keyword">function
   <span class="hljs-keyword">var</span> ph_libutil = <span class="hljs-built_in">require</span>(<span class="hljs-string">"phantomizer-libutil"</span>);
   <span class="hljs-keyword">var</span> phantomizer_helper = ph_libutil.phantomizer_helper;
 
+  <span class="hljs-keyword">var</span> router_factory    = ph_libutil.router;
   grunt.registerMultiTask(<span class="hljs-string">"phantomizer-dir-inject-html-extras"</span>,
     <span class="hljs-string">"Scans a directory and inject extra html into all html / htm files"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
 
@@ -63,30 +64,59 @@ module.exports = <span class="hljs-function"><span class="hljs-keyword">function
       <span class="hljs-keyword">var</span> requirejs_baseUrl = options.requirejs.baseUrl;
       <span class="hljs-keyword">var</span> requirejs_paths = options.requirejs.paths;
 
-      <span class="hljs-keyword">var</span> files = grunt.file.expand(in_dir+<span class="hljs-string">"**/*.{html,htm}"</span>);
-      grunt.log.ok(<span class="hljs-string">"Files Count "</span>+files.length);</pre></div>
+
+      <span class="hljs-keyword">var</span> done = <span class="hljs-keyword">this</span>.async();
+
+      <span class="hljs-keyword">var</span> config = grunt.config();
+      <span class="hljs-keyword">var</span> router = <span class="hljs-keyword">new</span> router_factory(config.routing);
+      router.load(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span></pre></div>
+        
+      
+        
+        <p>fetch urls to build</p>
+
+        
+          <div class='highlight'><pre>        <span class="hljs-keyword">var</span> not_added = [];
+        <span class="hljs-keyword">var</span> urls = router.collect_urls(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(route)</span>{</span>
+          <span class="hljs-keyword">if</span>( route.export == <span class="hljs-literal">false</span> ){
+            not_added.push(route);
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+          }
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        });
+        grunt.log.ok(<span class="hljs-string">"URL to patch: "</span>+urls.length+<span class="hljs-string">"/"</span>+(urls.length+not_added.length));</pre></div>
         
       
         
         <p>initialize a progress bar</p>
 
         
-          <div class='highlight'><pre>      <span class="hljs-keyword">var</span> bar = <span class="hljs-keyword">new</span> ProgressBar(<span class="hljs-string">' done=[:current/:total] elapsed=[:elapseds] sprint=[:percent] eta=[:etas] [:bar]'</span>, {
-        complete: <span class="hljs-string">'#'</span>
-        , incomplete: <span class="hljs-string">'-'</span>
-        , width: <span class="hljs-number">80</span>
-        , total: files.length
+          <div class='highlight'><pre>        <span class="hljs-keyword">var</span> bar = <span class="hljs-keyword">new</span> ProgressBar(<span class="hljs-string">' done=[:current/:total] elapsed=[:elapseds] sprint=[:percent] eta=[:etas] [:bar]'</span>, {
+          complete: <span class="hljs-string">'#'</span>
+          , incomplete: <span class="hljs-string">'-'</span>
+          , width: <span class="hljs-number">80</span>
+          , total: urls.length
+        });
+
+        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> n <span class="hljs-keyword">in</span> urls ){
+          <span class="hljs-keyword">var</span> file = in_dir+urls[n];
+          <span class="hljs-keyword">var</span> retour = grunt.file.read(file);
+          <span class="hljs-keyword">if</span>( retour ){
+            retour = inject_extras(retour,requirejs_baseUrl,requirejs_src, requirejs_paths);
+            grunt.file.write(file, retour);
+            grunt.verbose.ok(<span class="hljs-string">"Extras inject in "</span>+file);
+          }<span class="hljs-keyword">else</span>{
+            grunt.log.error(<span class="hljs-string">"File is missing: "</span>+file)
+          }
+          bar.tick();
+        }
+
+        done();
       });
 
-      <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> n <span class="hljs-keyword">in</span> files ){
-        <span class="hljs-keyword">var</span> file = files[n];
-        <span class="hljs-keyword">var</span> retour = grunt.file.read(file);
-        retour = inject_extras(retour,requirejs_baseUrl,requirejs_src, requirejs_paths);
-        grunt.file.write(file, retour);
-        grunt.verbose.ok(<span class="hljs-string">"Extras inject in "</span>+file);
-        bar.tick();
-      }
     });
+
+
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inject_extras</span><span class="hljs-params">(buf,requirejs_baseUrl,requirejs_src, requirejs_paths)</span>{</span>
     buf = phantomizer_helper.inject_requirejs(requirejs_baseUrl, requirejs_src, requirejs_paths, buf, <span class="hljs-literal">null</span>)
 
