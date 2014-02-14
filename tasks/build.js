@@ -6,7 +6,6 @@ module.exports = function(grunt) {
   var ph_libutil = require("phantomizer-libutil");
   var phantomizer_helper = ph_libutil.phantomizer_helper;
 
-  var router_factory    = ph_libutil.router;
   grunt.registerMultiTask("phantomizer-dir-inject-html-extras",
     "Scans a directory and inject extra html into all html / htm files", function () {
 
@@ -21,8 +20,10 @@ module.exports = function(grunt) {
 
       var done = this.async();
 
-      var config = grunt.config();
-      var router = new router_factory(config.routing);
+      // get phantomizer main instance
+      var Phantomizer = ph_libutil.Phantomizer;
+      var phantomizer = new Phantomizer(process.cwd(),grunt);
+      var router = phantomizer.get_router();
       router.load(function(){
 
         // fetch urls to build
