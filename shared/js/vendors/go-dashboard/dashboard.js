@@ -52,7 +52,7 @@ define(["vendors/go-device-preview/device-preview",
     that.Optimizations = ko.observable("");
     that.delay = ko.observable(null);
 
-    var no_dashboard_enabled = true;
+    var can_disable_dashbaord = true;
     var doc_gen_enabled = true;
 
     that.SetCurrentLocation = function (location) {
@@ -75,7 +75,7 @@ define(["vendors/go-device-preview/device-preview",
       window.location.href = that.previewNowUrl();
     }
     that.goPreviewNoDashBoard = function () {
-      if(no_dashboard_enabled){
+      if(can_disable_dashbaord){
         that.previewNoDashboard(true);
         window.location.href = that.previewNowUrl()+window.location.hash;
       }
@@ -225,7 +225,7 @@ define(["vendors/go-device-preview/device-preview",
       $("#no_dashboard_cb").hide();
       $("#no_dashboard").css("opacity",0.5);
       $("#cache_clean").css("opacity",0.5).unbind("click");
-      no_dashboard_enabled = false;
+      can_disable_dashbaord = false;
     });
 
     function disable_previous_options( select, value ){
@@ -263,7 +263,7 @@ define(["vendors/go-device-preview/device-preview",
       $("#no_dashboard_cb").hide();
       $("#no_dashboard").css("opacity",0.5);
       $("#cache_clean").css("opacity",0.5).unbind("click");
-      no_dashboard_enabled = false;
+      can_disable_dashbaord = false;
     });
 
     $.get("/stryke_get_max_congestion", function (newValue) {
@@ -279,7 +279,7 @@ define(["vendors/go-device-preview/device-preview",
       $("#no_dashboard_cb").hide();
       $("#no_dashboard").css("opacity",0.5);
       $("#cache_clean").css("opacity",0.5).unbind("click");
-      no_dashboard_enabled = false;
+      can_disable_dashbaord = false;
     });
 
 

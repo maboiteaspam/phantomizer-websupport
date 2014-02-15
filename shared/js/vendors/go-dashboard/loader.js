@@ -4,15 +4,11 @@ define(["vendors/utils/url_util","vendors/go-dashboard/dashboard-ui"], function(
   url_util = new url_util();
 
   var DashBoardLoader = function(){
-    var no_dashboard = url_util.get_param(window.location.search,"no_dashboard");
-
-    if( no_dashboard != false )
-      this.enabled = false;
-    else if( window.no_dashboard!= undefined && window.no_dashboard != true )
-      this.enabled = false;
-
-    if(self!=top)
-      this.enabled = false;
+    this.enabled = false;
+    if(self!=top){
+      if( url_util.get_param(window.location.search,"no_dashboard") == false )
+        this.enabled = true;
+    }
   }
   DashBoardLoader.prototype.enabled = true;
   DashBoardLoader.prototype.load = function(next){
