@@ -52,7 +52,6 @@ module.exports = <span class="hljs-function"><span class="hljs-keyword">function
   <span class="hljs-keyword">var</span> ph_libutil = <span class="hljs-built_in">require</span>(<span class="hljs-string">"phantomizer-libutil"</span>);
   <span class="hljs-keyword">var</span> phantomizer_helper = ph_libutil.phantomizer_helper;
 
-  <span class="hljs-keyword">var</span> router_factory    = ph_libutil.router;
   grunt.registerMultiTask(<span class="hljs-string">"phantomizer-dir-inject-html-extras"</span>,
     <span class="hljs-string">"Scans a directory and inject extra html into all html / htm files"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
 
@@ -65,10 +64,16 @@ module.exports = <span class="hljs-function"><span class="hljs-keyword">function
       <span class="hljs-keyword">var</span> requirejs_paths = options.requirejs.paths;
 
 
-      <span class="hljs-keyword">var</span> done = <span class="hljs-keyword">this</span>.async();
+      <span class="hljs-keyword">var</span> done = <span class="hljs-keyword">this</span>.async();</pre></div>
+        
+      
+        
+        <p>get phantomizer main instance</p>
 
-      <span class="hljs-keyword">var</span> config = grunt.config();
-      <span class="hljs-keyword">var</span> router = <span class="hljs-keyword">new</span> router_factory(config.routing);
+        
+          <div class='highlight'><pre>      <span class="hljs-keyword">var</span> Phantomizer = ph_libutil.Phantomizer;
+      <span class="hljs-keyword">var</span> phantomizer = <span class="hljs-keyword">new</span> Phantomizer(process.cwd(),grunt);
+      <span class="hljs-keyword">var</span> router = phantomizer.get_router();
       router.load(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span></pre></div>
         
       
