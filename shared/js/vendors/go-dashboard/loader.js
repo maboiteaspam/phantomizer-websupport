@@ -5,7 +5,7 @@ define(["vendors/utils/url_util","vendors/go-dashboard/dashboard-ui"], function(
 
   var DashBoardLoader = function(){
     this.enabled = false;
-    if(self!=top){
+    if(self==top){
       if( url_util.get_param(window.location.search,"no_dashboard") == false )
         this.enabled = true;
     }
