@@ -1,11 +1,15 @@
 "use strict";
 
 // deferrer helps you to emulate a jQuery.Deferrer object
-define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendors/utils/dfrer"],function (queuer, template, dfrer) {
+define([
+  "vendors/go-phantomizer/queuer",
+  "vendors/go-phantomizer/template",
+  "vendors/utils/dfrer"
+],function (queuer, template, dfrer) {
   var phantomizer = function(){
-  }
+  };
   phantomizer.prototype.template = new template();
-  phantomizer.prototype.queuer = new queuer(window.phantomatic || false);
+  phantomizer.prototype.queuer = new queuer(window.is_built || false, window.phantomatic || false);
 
   phantomizer.prototype.before_render = [];
   phantomizer.prototype.after_static_render = [];
@@ -23,7 +27,7 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
         queuer.render(render_list[n].fn);
       }
     }
-  }
+  };
   phantomizer.prototype.render = function(main_fn){
     var that = this;
 
@@ -34,7 +38,7 @@ define(["vendors/go-phantomizer/queuer","vendors/go-phantomizer/template","vendo
     });
     add_to_queuer(that.queuer, that.after_static_render);
 
-// during client side rendeering, render JIT template items
+// during client side rendering, render JIT template items
     that.queuer.render(function(next){
       that.template.render_client(next);
     });
