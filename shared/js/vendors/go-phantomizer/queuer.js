@@ -1,10 +1,10 @@
 "use strict";
 
 define([],function () {
-  var queuer = function(is_building){
-    this.is_built = window.is_built;
+  var queuer = function(is_built, is_building){
+    this.is_built = is_built;
     this.is_building = is_building;
-  }
+  };
   queuer.prototype.is_built = null;
   queuer.prototype.is_building = null;
 //  list handlers to execute
@@ -13,12 +13,12 @@ define([],function () {
   queuer.prototype.render_static = function(handler, first){
     if( first == true ) this.items.unshift({'type':'static','handler':handler});
     else this.items.push({'type':'static','handler':handler});
-  }
+  };
 // queue an handler, to be rendered on client side
   queuer.prototype.render = function(handler, first){
     if( first == true ) this.items.unshift({'type':'dynamic','handler':handler});
     else this.items.push({'type':'dynamic','handler':handler});
-  }
+  };
 // run all handlers and fix the build by adding global variable
   queuer.prototype.run = function(){
     if( this.items.length == 0 ){
@@ -62,7 +62,7 @@ define([],function () {
         next();
       }
     }
-  }
+  };
 
   return queuer;
 });
