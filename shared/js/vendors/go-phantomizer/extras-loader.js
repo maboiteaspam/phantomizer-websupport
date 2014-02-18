@@ -23,9 +23,7 @@ define([
         DashBoardLoader.load();
         DashBoardLoader.start(function(){
           QUnitLoader.load(function(){
-            window.setTimeout(function(){ // we must not rely on timeout, but that s the better solution found on that very moment
-              QUnitLoader.start();
-            },2500);
+            QUnitLoader.start();
           });
         });
       }
@@ -46,7 +44,6 @@ define([
         }else{
           QUnitLoader.load(next);
         }
-
       });
     });
 
