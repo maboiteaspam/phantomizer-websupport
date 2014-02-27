@@ -2,7 +2,6 @@
 /* struct first */
 
 #stryke-db{
-    z-index: 10;
     position: fixed;
     bottom: 40px;
     right: 40px;
