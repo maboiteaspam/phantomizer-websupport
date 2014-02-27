@@ -37,7 +37,7 @@ define([
       // catch click tab title
       $(el).find(".dashboard-scene>ul").click(function (event) {
 
-        if ( $(event.target).is("a") && $(event.target).attr("href").match(/#[^#]+$/)){
+        if ( $(event.target).is("a") && !$(event.target).attr("href") ){
 
           if (!__has_loaded) {
             var base_dir = window.location.pathname;

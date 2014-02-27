@@ -9,6 +9,10 @@
     font-size: 12px;
 }
 
+.dashboard a{
+    cursor: pointer;
+}
+
 .dashboard{
     position: absolute;
     left: 0;
