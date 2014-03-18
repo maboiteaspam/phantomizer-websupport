@@ -10,7 +10,7 @@ define([],function () {
   var domain_switcher = function(){
     this.items = [];
     this.forced = false;
-    this.default = null;
+    this.fallback = null;
   };
   /**
    * Set the options for unreferenced domains
@@ -18,7 +18,7 @@ define([],function () {
    * @param options
    */
   domain_switcher.prototype.default_options = function(consumed,options){
-    this.default = {
+    this.fallback = {
       consumed:consumed,
       options:options
     };
@@ -51,8 +51,8 @@ define([],function () {
     if( this.forced ){
       return this.forced;
     }
-    if(!currently_browsed && this.default){
-      return this.default;
+    if(!currently_browsed && this.fallback){
+      return this.fallback;
     }
     currently_browsed = !currently_browsed?window.location.host:currently_browsed;
     for(var n in this.items ){
